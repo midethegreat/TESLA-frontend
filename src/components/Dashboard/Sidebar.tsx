@@ -15,6 +15,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth'; // Adjust path as needed
+import Logo from '../logo/logo';
 
 interface DashboardSidebarProps {
   isOpen: boolean;
@@ -50,43 +51,51 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ isOpen, onToggle })
   return (
     <aside
       className={`bg-[#0d0d0d] border-r border-white/5 hidden lg:flex flex-col transition-all duration-300 z-50 ${
-        isOpen ? 'w-64' : 'w-24'
+        isOpen ? "w-64" : "w-24"
       }`}
     >
-      <div className="p-6 flex items-center justify-between h-24">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png"
-          alt="Tesla"
+      <div className="p-6 flex items-center justify-between ">
+        <Logo
+          size={isOpen ? "md" : "xs"}
           className={`h-6 tesla-red-filter transition-all ${
-            !isOpen ? 'opacity-0 scale-0 w-0' : 'opacity-100 scale-100'
+            !isOpen ? "opacity-0 scale-0 w-0" : "opacity-100 scale-100"
           }`}
         />
         <button
           onClick={onToggle}
           className="text-gray-500 hover:text-white p-2 bg-white/5 rounded-xl"
         >
-          <ChevronLeft size={20} className={!isOpen ? 'rotate-180' : ''} />
+          <ChevronLeft size={20} className={!isOpen ? "rotate-180" : ""} />
         </button>
       </div>
       <nav className="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
         {menuItems.map((item, idx) => {
-          const isActive = window.location.pathname === item.path ||
-            (item.path === '/dashboard/settings' && window.location.pathname.includes('/dashboard/kyc')) ||
-            (item.path === '/dashboard/settings' && window.location.pathname.includes('/dashboard/reset-password'));
+          const isActive =
+            window.location.pathname === item.path ||
+            (item.path === "/dashboard/settings" &&
+              window.location.pathname.includes("/dashboard/kyc")) ||
+            (item.path === "/dashboard/settings" &&
+              window.location.pathname.includes("/dashboard/reset-password"));
 
           return (
             <button
               key={idx}
-              onClick={() => item.path === '/dashboard/support' ? handleSupportClick() : navigate(item.path)}
+              onClick={() =>
+                item.path === "/dashboard/support"
+                  ? handleSupportClick()
+                  : navigate(item.path)
+              }
               className={`w-full flex items-center gap-4 px-4 py-4 rounded-[1.2rem] transition-all relative group ${
                 isActive
-                  ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl shadow-orange-500/30'
-                  : 'text-gray-500 hover:bg-white/5 hover:text-white'
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl shadow-orange-500/30"
+                  : "text-gray-500 hover:bg-white/5 hover:text-white"
               }`}
             >
               <span className="flex-shrink-0">{item.icon}</span>
               {isOpen && (
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] truncate">{item.name}</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] truncate">
+                  {item.name}
+                </span>
               )}
             </button>
           );
@@ -98,7 +107,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ isOpen, onToggle })
           className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl bg-white/5 text-gray-500 hover:bg-red-500/10 hover:text-red-500 transition-all group"
         >
           <LogOut size={18} />
-          {isOpen && <span className="text-[10px] font-black uppercase tracking-widest">Logout</span>}
+          {isOpen && (
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              Logout
+            </span>
+          )}
         </button>
       </div>
     </aside>

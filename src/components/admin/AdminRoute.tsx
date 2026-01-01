@@ -2,17 +2,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate,  useLocation } from "react-router-dom";
 import { adminService } from "../../services/admin.service";
 import { Loader2 } from "lucide-react";
 
 interface AdminRouteProps {
-  requireSuperAdmin?: boolean;
+  children: React.ReactNode;
 }
 
-export const AdminRoute: React.FC<AdminRouteProps> = ({
-  requireSuperAdmin = false,
-}) => {
+const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const location = useLocation();
@@ -34,8 +32,8 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({
           return;
         }
 
-        // Check role if superadmin is required
-        if (requireSuperAdmin && user.role !== "SUPERADMIN") {
+        // Check if user has admin or superadmin role
+        if (user.role !== "ADMIN" && user.role !== "SUPERADMIN") {
           setIsAuthorized(false);
           return;
         }
@@ -57,7 +55,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({
     };
 
     checkAuth();
-  }, [requireSuperAdmin, location.pathname]);
+  }, [location.pathname]);
 
   if (isLoading) {
     return (
@@ -82,5 +80,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({
     );
   }
 
-  return <Outlet />;
+  return <>{children}</>;
 };
+
+export default AdminRoute;

@@ -1,7 +1,9 @@
+// App.tsx (Updated)
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 
 import Login from "./components/Auth/Login";
@@ -25,19 +27,36 @@ import Transactions from "./components/Dashboard/Transactions";
 import Withdraw from "./components/Dashboard/Withdraw";
 import InvestmentPlans from "./components/InvestmentPlans";
 import Settings from "./components/Dashboard/Settings";
+import AdminAnalytics from "./components/admin/AdminAnalytics";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminKYC from "./components/admin/AdminKYC";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminPanel from "./components/admin/AdminPanel";
+import  AdminRoute  from "./components/admin/AdminRoute";
+import AdminUsers from "./components/admin/AdminUsers";
+import AdminLogin from "./components/Auth/AdminLogin";
+
+// Admin Components
+
 
 export default function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
 
+        {/* Admin Public Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* Public Home Page */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
         </Route>
 
+        {/* User Dashboard Routes (Protected) */}
         <Route
           path="/dashboard/*"
           element={
@@ -61,6 +80,30 @@ export default function App() {
           <Route path="logs" element={<InvestmentLogs />} />
           <Route path="support" element={<Support />} />
         </Route>
+
+        {/* Admin Dashboard Routes (Protected) */}
+        <Route
+          path="/admin/*"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="kyc" element={<AdminKYC />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="documents" element={<AdminPanel />} />
+          <Route
+            path="settings"
+            element={<div className="p-6">Admin Settings (Coming Soon)</div>}
+          />
+        </Route>
+
+        {/* Redirect for unknown routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { authService } from "@/services/auth.service";
+import Logo from "../logo/logo";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -58,11 +59,7 @@ export default function Login() {
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center py-12 px-6 font-display">
       <div className="mb-8">
         <Link to="#">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png"
-            alt="Tesla"
-            className="h-12 tesla-red-filter"
-          />
+          <Logo size="xl" />
         </Link>
       </div>
 

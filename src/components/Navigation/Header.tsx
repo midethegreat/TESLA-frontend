@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Send, ChevronDown } from "lucide-react";
+import Logo from "../logo/logo";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +17,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/dashboard">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png"
-                alt="Tesla"
-                className="h-12 md:h-16 lg:h-20 tesla-red-filter transition-transform hover:scale-105"
-              />
+              <Logo/>
             </Link>
           </div>
 

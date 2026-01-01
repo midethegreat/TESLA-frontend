@@ -34,7 +34,7 @@ const processQueue = (
 
 // Check if request is for admin endpoints
 const isAdminRequest = (url: string | undefined): boolean => {
-  return url?.startsWith("/admin/") || false;
+  return url?.includes("/api/admin/") || false;
 };
 
 // Get appropriate token based on request type

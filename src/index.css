@@ -61,3 +61,13 @@ html {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;             /* Chrome, Safari, Opera */
 }
+
+/* styles/tesla-logo.css or add to your tailwind.config.js */
+.tesla-red-filter {
+  filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(360deg) brightness(95%) contrast(118%);
+}
+
+/* Alternative using brightness/contrast only */
+.tesla-logo {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(99%) saturate(7404%) hue-rotate(360deg) brightness(95%) contrast(118%);
+}

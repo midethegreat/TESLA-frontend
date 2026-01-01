@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import {
   LogOut,
   Menu,
@@ -13,36 +13,47 @@ import {
   Settings,
   Bell,
   ChevronDown,
+  Home,
+  FileText as FileTextIcon,
+  Shield,
 } from "lucide-react";
+
 import { adminService } from "../../services/admin.service";
 import { useAdminAuth } from "@/hooks/dashboard/useAdminAuth";
+import Logo from "../logo/logo";
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const { logout } = useAdminAuth();
 
-useEffect(() => {
-  const fetchUser = async () => {
-    const currentUser = await adminService.getAdminUser();
-    setUser(currentUser);
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      const currentUser = await adminService.getAdminUser();
+      setUser(currentUser);
+    };
 
-  fetchUser();
-}, []);
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
   };
 
   const menuItems = [
-    {
-      icon: <BarChart3 size={20} />,
-      label: "Dashboard",
-      path: "/admin/dashboard",
-    },
+    { icon: <Home size={20} />, label: "Dashboard", path: "/admin/dashboard" },
     { icon: <Users size={20} />, label: "Users", path: "/admin/users" },
     { icon: <FileText size={20} />, label: "KYC", path: "/admin/kyc" },
+    {
+      icon: <BarChart3 size={20} />,
+      label: "Analytics",
+      path: "/admin/analytics",
+    },
+    {
+      icon: <FileTextIcon size={20} />,
+      label: "Documents",
+      path: "/admin/documents",
+    },
     {
       icon: <Settings size={20} />,
       label: "Settings",
@@ -51,8 +62,17 @@ useEffect(() => {
   ];
 
   if (!user) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d0d0d] to-[#1a1a1a]">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500"></div>
+          <p className="mt-4 text-gray-400">Loading admin session...</p>
+        </div>
+      </div>
+    );
   }
+
+  const isSuperAdmin = user.role === "SUPERADMIN";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0d0d0d] to-[#1a1a1a] text-white">
@@ -73,30 +93,37 @@ useEffect(() => {
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className="p-6 border-b border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-amber-500/20 to-red-500/20 border border-amber-500/30">
-                <BarChart3 className="h-6 w-6 text-amber-500" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">Tesla Admin</h1>
-                <p className="text-gray-400 text-xs">Investment Platform</p>
-              </div>
-            </div>
-          </div>
+          <Logo size="md" />
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.path}
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition"
               >
                 {item.icon}
                 <span className="font-medium">{item.label}</span>
-              </a>
+              </Link>
             ))}
+
+            {/* Super Admin Only Section */}
+            {isSuperAdmin && (
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <p className="text-xs text-gray-500 px-3 mb-2">
+                  Super Admin Tools
+                </p>
+                <Link
+                  to="/admin/superadmin"
+                  className="flex items-center gap-3 p-3 rounded-lg text-amber-300 hover:bg-amber-500/10 transition"
+                >
+                  <Shield className="h-5 w-5" />
+                  <span className="font-medium">Admin Management</span>
+                </Link>
+              </div>
+            )}
           </nav>
 
           {/* User info */}
@@ -113,10 +140,16 @@ useEffect(() => {
                     ? `${user.firstName} ${user.lastName}`
                     : user.email}
                 </p>
-                <p className="text-gray-400 text-xs capitalize">
-                  {user.role.toLowerCase()} •{" "}
-                  <span className="text-green-400">Online</span>
-                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <span className="text-gray-400 text-xs capitalize">
+                    {user.role.toLowerCase()}
+                  </span>
+                  {isSuperAdmin && (
+                    <span className="text-xs text-amber-500 font-medium">
+                      • Super
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -132,6 +165,11 @@ useEffect(() => {
               <h2 className="text-xl font-semibold">Admin Dashboard</h2>
               <p className="text-gray-400 text-sm">
                 Welcome back, {user.firstName || user.email}
+                {isSuperAdmin && (
+                  <span className="ml-2 px-2 py-1 bg-gradient-to-r from-amber-500/20 to-red-500/20 text-amber-400 text-xs rounded-full">
+                    SUPER ADMIN
+                  </span>
+                )}
               </p>
             </div>
 

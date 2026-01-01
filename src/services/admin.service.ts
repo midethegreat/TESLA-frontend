@@ -1,4 +1,4 @@
-// services/admin.service.ts
+// services/api/admin.service.ts
 import API from "./api";
 
 // Types
@@ -141,11 +141,21 @@ export interface KYCStats {
 // Admin Service
 export const adminService = {
   // ========== AUTHENTICATION ==========
+  // In admin.service.ts, update login function
   login: async (
     credentials: AdminLoginRequest
   ): Promise<AdminLoginResponse> => {
     try {
-      const response = await API.post("/admin/login", credentials);
+      const response = await API.post("/api/admin/login", credentials);
+
+      // Store tokens
+      const { token, refreshToken, user } = response.data;
+
+      // Use the functions from adminService
+      adminService.setAdminToken(token);
+      adminService.setAdminRefreshToken(refreshToken);
+      adminService.setAdminUser(user);
+
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Login failed");
@@ -154,7 +164,7 @@ export const adminService = {
 
   verifyToken: async (): Promise<{ success: boolean; user: any }> => {
     try {
-      const response = await API.get("/admin/verify");
+      const response = await API.get("/api/admin/verify");
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -174,7 +184,7 @@ export const adminService = {
         throw new Error("No refresh token available");
       }
 
-      const response = await API.post("/admin/refresh", { refreshToken });
+      const response = await API.post("/api/admin/refresh", { refreshToken });
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Token refresh failed");
@@ -183,7 +193,7 @@ export const adminService = {
 
   logout: async (): Promise<{ success: boolean; message: string }> => {
     try {
-      const response = await API.get("/admin/logout");
+      const response = await API.get("/api/admin/logout");
       // Clear admin tokens from localStorage
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminRefreshToken");
@@ -204,7 +214,7 @@ export const adminService = {
     stats: DashboardStats;
   }> => {
     try {
-      const response = await API.get("/admin/dashboard");
+      const response = await API.get("/api/admin/dashboard");
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -222,7 +232,7 @@ export const adminService = {
     sortOrder: string = "desc"
   ): Promise<UsersResponse> => {
     try {
-      const response = await API.get("/admin/users", {
+      const response = await API.get("/api/admin/users", {
         params: { page, limit, search, sortBy, sortOrder },
       });
       return response.data;
@@ -235,7 +245,7 @@ export const adminService = {
     userId: string
   ): Promise<{ success: boolean; user: any }> => {
     try {
-      const response = await API.get(`/admin/users/${userId}`);
+      const response = await API.get(`/api/admin/users/${userId}`);
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -250,7 +260,7 @@ export const adminService = {
     data?: any
   ): Promise<{ success: boolean; message: string; data: any }> => {
     try {
-      const response = await API.put(`/admin/users/${userId}/status`, {
+      const response = await API.put(`/api/admin/users/${userId}/status`, {
         action,
         data,
       });
@@ -268,7 +278,7 @@ export const adminService = {
     analytics: AnalyticsData;
   }> => {
     try {
-      const response = await API.get("/admin/analytics");
+      const response = await API.get("/api/admin/analytics");
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -285,7 +295,7 @@ export const adminService = {
     data: any;
   }> => {
     try {
-      const response = await API.get("/admin/analytics/detailed", {
+      const response = await API.get("/api/admin/analytics/detailed", {
         params: { period },
       });
       return response.data;
@@ -302,7 +312,7 @@ export const adminService = {
     limit: number = 20
   ): Promise<KYCResponse> => {
     try {
-      const response = await API.get("/admin/kyc/requests", {
+      const response = await API.get("/api/admin/kyc/requests", {
         params: { page, limit },
       });
       return response.data;
@@ -315,7 +325,7 @@ export const adminService = {
 
   getKYCStats: async (): Promise<{ success: boolean; stats: KYCStats }> => {
     try {
-      const response = await API.get("/admin/kyc/stats");
+      const response = await API.get("/api/admin/kyc/stats");
       return response.data;
     } catch (error: any) {
       throw new Error(
@@ -329,7 +339,7 @@ export const adminService = {
     notes?: string
   ): Promise<{ success: boolean; message: string; profile: any }> => {
     try {
-      const response = await API.post(`/admin/kyc/${userId}/approve`, {
+      const response = await API.post(`/api/admin/kyc/${userId}/approve`, {
         notes,
       });
       return response.data;
@@ -343,7 +353,7 @@ export const adminService = {
     reason: string
   ): Promise<{ success: boolean; message: string; profile: any }> => {
     try {
-      const response = await API.post(`/admin/kyc/${userId}/reject`, {
+      const response = await API.post(`/api/admin/kyc/${userId}/reject`, {
         reason,
       });
       return response.data;
