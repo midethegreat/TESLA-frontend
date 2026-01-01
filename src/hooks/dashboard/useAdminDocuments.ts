@@ -29,7 +29,7 @@ export const useAdminDocuments = (props?: {
     totalPages: 0,
   });
 
-  const fetchDocuments = async (params?: { page?: number; limit?: number }) => {
+  const fetchDocuments = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -90,12 +90,7 @@ export const useAdminDocuments = (props?: {
     }
   };
 
-  // TODO: Implement this when you have the backend endpoint
-  const getAllUploads = async () => {
-    // This would call your backend endpoint
-    // For now, we'll use fetchDocuments
-    return fetchDocuments();
-  };
+
 
   useEffect(() => {
     if (adminService.isAdminLoggedIn()) {

@@ -54,14 +54,6 @@ const setToken = (isAdmin: boolean, token: string): void => {
   }
 };
 
-// Get appropriate refresh token based on request type
-const getRefreshToken = (isAdmin: boolean): string | null => {
-  if (isAdmin) {
-    return localStorage.getItem("adminRefreshToken");
-  }
-  return localStorage.getItem("refreshToken");
-};
-
 // Add request interceptor to include appropriate auth token
 API.interceptors.request.use(
   (config) => {
