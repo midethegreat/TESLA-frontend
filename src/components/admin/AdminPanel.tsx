@@ -1,6 +1,3 @@
-// components/AdminPanel.tsx (Updated)
-"use client";
-
 import type React from "react";
 import { useState } from "react";
 import { Users, FileText, Loader2, Download } from "lucide-react";
@@ -307,13 +304,4 @@ const getKYCStatusText = (status: string) => {
   if (!status) return "Not Submitted";
   return status.charAt(0).toUpperCase() + status.slice(1);
 };
-
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
-
 export default AdminPanel;

@@ -9,17 +9,21 @@ interface KYCWarningProps {
 const KYCWarning: React.FC<KYCWarningProps> = ({ isVisible, onClose }) => {
   const [isClosing, setIsClosing] = useState(false);
 
-  useEffect(() => {
-    if (isVisible) {
-      setIsClosing(false);
-      const timer = setTimeout(() => {
-        setIsClosing(true);
-        setTimeout(onClose, 300);
-      }, 5000);
+  const handleClosing = () => {
+    setIsClosing(true);
+    setTimeout(onClose, 300);
+  };
 
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, onClose]);
+useEffect(() => {
+  if (isVisible) {
+    const timer = setTimeout(handleClosing, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      setIsClosing(false);
+    };
+  }
+}, [isVisible, onClose]);
 
   if (!isVisible && !isClosing) return null;
 

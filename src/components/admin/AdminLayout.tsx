@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {
   LogOut,
   Menu,
@@ -14,19 +14,22 @@ import {
   Bell,
   ChevronDown,
 } from "lucide-react";
-import { useAdminAuth } from "../../hooks/useAdminAuth";
 import { adminService } from "../../services/admin.service";
+import { useAdminAuth } from "@/hooks/dashboard/useAdminAuth";
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const { logout } = useAdminAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const currentUser = adminService.getAdminUser();
+useEffect(() => {
+  const fetchUser = async () => {
+    const currentUser = await adminService.getAdminUser();
     setUser(currentUser);
-  }, []);
+  };
+
+  fetchUser();
+}, []);
 
   const handleLogout = async () => {
     await logout();
