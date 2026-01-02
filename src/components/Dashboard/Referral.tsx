@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { CopyIcon, Check, UserCircle2, Users } from 'lucide-react';
+import { useReferrals } from '@/hooks/dashboard/useReferrals';
 
 const Referral: React.FC = () => {
+  const { referrals, referralUrl } = useReferrals();
   const [copied, setCopied] = useState(false);
-  const referralId = 'YbYSaqsQ';
-  const referralUrl = `https://investwithtsla.web.app/register.html?invite=${referralId}Zg`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralUrl);
@@ -32,7 +32,7 @@ const Referral: React.FC = () => {
         </button>
 
         <p className="text-white/50 text-[9px] font-black uppercase tracking-widest text-center md:text-left">
-          0 members joined using this URL
+          {referrals.length} {referrals.length === 1 ? 'member' : 'members'} joined using this URL
         </p>
       </div>
 
@@ -60,7 +60,7 @@ const Referral: React.FC = () => {
         </div>
         
         <div className="inline-block px-5 py-2.5 rounded-full border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest bg-green-500/5">
-          Total Referrals: 0
+          Total Referrals: {referrals.length}
         </div>
         
         <div className="h-[1px] w-full bg-white/5"></div>
@@ -76,7 +76,7 @@ const Referral: React.FC = () => {
         <div className="grid grid-cols-2 gap-3 md:gap-4">
           <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex flex-col items-center md:items-start">
             <p className="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Direct</p>
-            <p className="text-lg md:text-xl font-black text-white">0</p>
+            <p className="text-lg md:text-xl font-black text-white">{referrals.length}</p>
           </div>
           <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex flex-col items-center md:items-start">
             <p className="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Indirect</p>
