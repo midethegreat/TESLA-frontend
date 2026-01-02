@@ -56,19 +56,6 @@ const DashboardBottomNav: React.FC = () => {
             </span>
           </NavLink>
         ))}
-        
-        {/* Logout button in mobile nav */}
-        <button
-          onClick={() => setShowLogoutConfirm(true)}
-          className="flex flex-col items-center justify-center gap-1.5 min-w-[60px] text-gray-400 hover:text-red-500 transition-all"
-        >
-          <div className="relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-[16px] md:rounded-[18px] transition-all duration-300">
-            <LogOut size={22} className="text-white/60" />
-          </div>
-          <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-center text-white/50">
-            Logout
-          </span>
-        </button>
       </nav>
 
       {/* Logout Confirmation Modal */}

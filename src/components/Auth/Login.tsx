@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center py-12 px-6 font-display">
       <div className="mb-8">
-        <Link to="#">
+        <Link to="/">
           <Logo size="xl" />
         </Link>
       </div>

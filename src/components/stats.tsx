@@ -18,10 +18,10 @@ export default function Stats() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCounts((prev) => ({
-        users: prev.users + Math.floor(Math.random() * 3),
-        deposit: prev.deposit + Math.floor(Math.random() * 100),
-        plans: prev.plans + Math.floor(Math.random() * 2),
-        withdrawn: prev.withdrawn + Math.floor(Math.random() * 150),
+        users: prev.users + (Math.random() > 0.5 ? 1 : 0),
+        deposit: prev.deposit + Math.floor(Math.random() * 5),
+        plans: prev.plans + (Math.random() > 0.8 ? 1 : 0),
+        withdrawn: prev.withdrawn + Math.floor(Math.random() * 10),
       }));
     }, 3000);
 
