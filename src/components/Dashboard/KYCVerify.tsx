@@ -334,7 +334,7 @@ const KYCVerify: React.FC = () => {
             </label>
             <div className="relative">
               <select
-                value={kycType}
+                value={kycData.idType}
                 onChange={(e) => setKycData({ ...kycData, idType: e.target.value as any })}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer"
               >
