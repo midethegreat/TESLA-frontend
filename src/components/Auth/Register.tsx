@@ -220,7 +220,7 @@ export default function Register() {
                   value={verificationCode}
                   onChange={handleVerificationCodeChange}
                   placeholder="Enter 6-digit code"
-                  className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
                   maxLength={6}
                 />
               </div>
@@ -293,7 +293,7 @@ export default function Register() {
               value={formData.firstName}
               onChange={handleInputChange}
               required
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
             />
           </div>
 
@@ -308,7 +308,7 @@ export default function Register() {
               value={formData.lastName}
               onChange={handleInputChange}
               required
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
             />
           </div>
 
@@ -324,7 +324,7 @@ export default function Register() {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
             />
           </div>
 
@@ -337,7 +337,7 @@ export default function Register() {
               name="country"
               value={formData.country}
               onChange={handleInputChange}
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition appearance-none"
             >
               <option value="Nigeria">Nigeria</option>
               <option value="United States">United States</option>
@@ -360,7 +360,7 @@ export default function Register() {
                 placeholder="Enter referral code"
                 value={formData.referralId}
                 onChange={handleInputChange}
-                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
               />
               <UserPlus className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
             </div>
@@ -379,12 +379,12 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleInputChange}
                 required
-                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black transition"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-white transition"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -405,7 +405,7 @@ export default function Register() {
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
                 required
-                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
               />
               <button
                 type="button"

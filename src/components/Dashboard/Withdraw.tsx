@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 const Withdraw: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const isKycVerified = (user as any)?.profile?.kycStatus === 'APPROVED';
+  const isKycVerified = (user as any)?.profile?.kycStatus === 'APPROVED' || (user as any)?.profile?.kycStatus === 'verified';
   const [withdrawStep, setWithdrawStep] = useState<'amount' | 'address'>('amount');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');

@@ -281,7 +281,7 @@ const KYCVerify: React.FC = () => {
               placeholder="Enter full name as it appears on ID"
               value={kycData.fullName}
               onChange={(e) => setKycData({ ...kycData, fullName: e.target.value })}
-              className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 transition shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
             />
           </div>
           
@@ -295,7 +295,7 @@ const KYCVerify: React.FC = () => {
                 type="date"
                 value={kycData.dateOfBirth}
                 onChange={(e) => setKycData({ ...kycData, dateOfBirth: e.target.value })}
-                className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 shadow-inner"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 shadow-inner"
                 max={new Date().toISOString().split('T')[0]}
               />
               <Calendar
@@ -312,7 +312,7 @@ const KYCVerify: React.FC = () => {
               <select
                 value={kycData.country}
                 onChange={(e) => setKycData({ ...kycData, country: e.target.value, nationality: e.target.value })}
-                className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 appearance-none shadow-inner cursor-pointer"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer"
               >
                 <option value="Nigeria">Nigeria</option>
                 <option value="United States">United States</option>
@@ -334,9 +334,9 @@ const KYCVerify: React.FC = () => {
             </label>
             <div className="relative">
               <select
-                value={kycData.idType}
+                value={kycType}
                 onChange={(e) => setKycData({ ...kycData, idType: e.target.value as any })}
-                className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 appearance-none shadow-inner cursor-pointer"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer"
               >
                 <option value="national_id">National ID</option>
                 <option value="passport">International Passport</option>
@@ -358,7 +358,7 @@ const KYCVerify: React.FC = () => {
               placeholder="Enter ID number"
               value={kycData.idNumber}
               onChange={(e) => setKycData({ ...kycData, idNumber: e.target.value })}
-              className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 transition shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
             />
           </div>
           
@@ -372,7 +372,7 @@ const KYCVerify: React.FC = () => {
               placeholder="Enter phone number"
               value={kycData.phone}
               onChange={(e) => setKycData({ ...kycData, phone: e.target.value })}
-              className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 transition shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
             />
           </div>
         </div>
@@ -388,7 +388,7 @@ const KYCVerify: React.FC = () => {
               placeholder="Enter your address"
               value={kycData.address}
               onChange={(e) => setKycData({ ...kycData, address: e.target.value })}
-              className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 transition shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
             />
           </div>
           
@@ -401,7 +401,7 @@ const KYCVerify: React.FC = () => {
               placeholder="Enter your city"
               value={kycData.city}
               onChange={(e) => setKycData({ ...kycData, city: e.target.value })}
-              className="w-full bg-[#1c1c1c] border border-white/5 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 transition shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
             />
           </div>
         </div>
