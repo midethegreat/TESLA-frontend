@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth'; // Adjust path as needed
 
 interface DashboardHeaderProps {
-  onMenuClick: () => void;
+  onMenuClick?: () => void;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onMenuClick }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = () => {
   const navigate = useNavigate();
   const { logout, user } = useAuth(); 
   const [notificationOpen, setNotificationOpen] = useState(false);

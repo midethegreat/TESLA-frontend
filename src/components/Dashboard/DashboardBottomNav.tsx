@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, TrendingUp, Wallet, Users, Settings, LogOut } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth'; // Adjust path as needed
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Home, TrendingUp, Wallet, Users, Settings } from 'lucide-react';
 
 const DashboardBottomNav: React.FC = () => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-
   const navItems = [
     { icon: <Home size={22} />, label: 'Home', path: '/dashboard' },
     { icon: <TrendingUp size={22} />, label: 'Invest', path: '/dashboard/plans' },
@@ -15,11 +10,6 @@ const DashboardBottomNav: React.FC = () => {
     { icon: <Users size={22} />, label: 'Referral', path: '/dashboard/referral' },
     { icon: <Settings size={22} />, label: 'Settings', path: '/dashboard/settings' },
   ];
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   return (
     <>
@@ -57,30 +47,6 @@ const DashboardBottomNav: React.FC = () => {
           </NavLink>
         ))}
       </nav>
-
-      {/* Logout Confirmation Modal */}
-      {showLogoutConfirm && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[150] flex items-center justify-center p-4">
-          <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 max-w-sm w-full animate-in fade-in zoom-in duration-300">
-            <h3 className="text-lg font-bold text-white mb-4">Confirm Logout</h3>
-            <p className="text-gray-400 mb-6">Are you sure you want to logout from your account?</p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowLogoutConfirm(false)}
-                className="flex-1 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-white/10 transition-colors font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex-1 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors font-medium"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
