@@ -6,7 +6,7 @@ import type { KycStatusResponse } from '@/types/profile'
 interface KYCStatusCardProps {
   kycStatus: KycStatusResponse
   onRetry?: () => void
-  fullName?: string // Optional: Can pass from parent or compute
+  fullName?: string 
 }
 
 const KYCStatusCard: React.FC<KYCStatusCardProps> = ({ kycStatus, onRetry, fullName }) => {

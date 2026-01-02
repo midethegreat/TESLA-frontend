@@ -82,7 +82,6 @@ const Deposit: React.FC = () => {
       return;
     }
 
-    // Type assertion - we know it's valid from validation
     const token = selectedToken as TokenType;
 
     try {
@@ -90,7 +89,7 @@ const Deposit: React.FC = () => {
       setError(null);
 
       const cryptoAmount = getCryptoAmountForDeposit();
-      const tokenCode = token.split(' ')[0]; // Extract BTC, ETH, or USDT
+      const tokenCode = token.split(' ')[0];
 
       const depositData: DepositRequest = {
         amount: Number.parseFloat(depositAmount),
@@ -99,13 +98,11 @@ const Deposit: React.FC = () => {
         cryptoAmount: cryptoAmount
       };
 
-      console.log('Creating deposit with data:', depositData);
+
       
       const transaction = await TransactionService.createDeposit(depositData);
+
       
-      console.log('Deposit created successfully:', transaction);
-      
-      // Redirect to transactions page with success message
       navigate('/dashboard/transactions', {
         state: { 
           message: 'Deposit request created successfully!',
@@ -131,7 +128,6 @@ const Deposit: React.FC = () => {
     setDepositStep('payment');
   };
 
-  // Early return if in payment step without valid token
   if (depositStep === 'payment' && (!selectedToken || !isValidToken(selectedToken))) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">

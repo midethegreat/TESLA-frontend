@@ -26,7 +26,6 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // Use the auth service login
       const { data } = await authService.login({
         email: formData.email,
         password: formData.password,
@@ -37,12 +36,11 @@ export default function Login() {
         return;
       }
 
-      // Redirect to dashboard
+
       navigate("/dashboard");
     } catch (err: any) {
       console.error("Login error:", err);
       
-      // Handle different error types
       if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else if (err.message) {
@@ -157,7 +155,6 @@ export default function Login() {
         </form>
       </div>
 
-      {/* Add some styling for the glass effect */}
       <style>{`
         .glass-card {
           background: rgba(20, 20, 20, 0.7);

@@ -10,13 +10,13 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch profile from backend
+ 
   const fetchUser = async () => {
     setLoading(true)
     try {
       const profile: Profile = await ProfileService.getProfile()
       setUser(profile)
-      console.log("profile",profile)
+  
     } catch (err: any) {
       setError(err.message || "Failed to fetch profile")
     } finally {

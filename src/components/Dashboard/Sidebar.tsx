@@ -14,7 +14,7 @@ import {
   ChevronLeft,
   LogOut,
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth'; // Adjust path as needed
+import { useAuth } from '@/hooks/useAuth'; 
 import Logo from '../logo/logo';
 
 interface DashboardSidebarProps {
@@ -44,7 +44,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ isOpen, onToggle })
   };
 
   const handleLogout = () => {
-    logout(); // Call the logout function from useAuth
+    logout(); 
     navigate('/login');
   };
 

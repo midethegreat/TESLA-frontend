@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { Calendar, ChevronDown, Upload, Loader2, ShieldCheck } from 'lucide-react'
 import { kycService } from '@/services/kyc.service'
 import { useKyc } from '@/hooks/dashboard/useKyc'
-import { useProfile } from '@/hooks/useProfile' // Add this if you need profile data
+import { useProfile } from '@/hooks/useProfile' 
 import KYCStatusCard from './KYCStatusCard'
 
 
 const KYCVerify: React.FC = () => {
   const navigate = useNavigate()
   const { kycStatus, loading: kycLoading, fetchKycStatus } = useKyc()
-  const { profile } = useProfile() // Optional: Get profile for full name
+  const { profile } = useProfile() 
   
   const [isSubmittingKyc, setIsSubmittingKyc] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -49,10 +49,10 @@ const KYCVerify: React.FC = () => {
   const backInputRef = useRef<HTMLInputElement>(null)
   const selfieInputRef = useRef<HTMLInputElement>(null)
 
-  // If KYC is pending or verified, show status instead of form
+
   useEffect(() => {
     if (kycStatus && (kycStatus.kycStatus === 'pending' || kycStatus.kycStatus === 'verified')) {
-      // Clear any existing error/success messages
+
       setError(null)
       setSuccess(null)
     }
@@ -144,7 +144,7 @@ const KYCVerify: React.FC = () => {
   }
 
   const handleRetryKYC = () => {
-    // Reset form for new submission (only when rejected)
+
     setKycData({
       fullName: '',
       country: 'Nigeria',
@@ -188,7 +188,7 @@ const KYCVerify: React.FC = () => {
   // Get full name from profile if available
   const fullName = profile ? `${profile.firstName} ${profile.lastName}`.trim() : ''
 
-  // If KYC is pending or verified, show status card
+
   if (kycStatus && (kycStatus.kycStatus === 'pending' || kycStatus.kycStatus === 'verified')) {
     return (
       <div className="space-y-10 animate-in fade-in max-w-4xl mx-auto pb-32 px-4">

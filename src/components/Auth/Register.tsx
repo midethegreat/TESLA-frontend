@@ -26,10 +26,9 @@ export default function Register() {
     country: "Nigeria",
     password: "",
     confirmPassword: "",
-    referralId: "", // Added referral ID field
+    referralId: "",
   });
 
-  // Get referral ID from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref");
@@ -54,13 +53,11 @@ export default function Register() {
     setError(null);
     setSuccess(null);
 
-    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
-    // Validate password strength
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters");
       return;
@@ -74,7 +71,7 @@ export default function Register() {
         email: formData.email,
         password: formData.password,
         country: formData.country,
-        referralId: formData.referralId || undefined, // Include referral ID if provided
+        referralId: formData.referralId || undefined,
       };
 
       const { data } = await authService.register(registerData);
@@ -121,10 +118,9 @@ export default function Register() {
 
       setSuccess("Email verified successfully! Redirecting to login...");
       
-      // Clear any stored referral code after successful registration
       localStorage.removeItem("referralCode");
       
-      // Redirect to login after 2 seconds
+
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -144,8 +140,7 @@ export default function Register() {
     setError(null);
     
     try {
-      // You'll need to add a resend verification endpoint to your backend
-      // For now, we'll simulate it
+
       const { data } = await authService.register({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -454,7 +449,6 @@ export default function Register() {
         </form>
       </div>
 
-      {/* Glass card styling */}
       <style >{`
         .glass-card {
           background: rgba(20, 20, 20, 0.7);

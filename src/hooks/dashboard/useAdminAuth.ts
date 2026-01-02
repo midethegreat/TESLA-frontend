@@ -46,7 +46,6 @@ export const useAdminAuth = () => {
       navigate("/admin/login");
     } catch (err: any) {
       console.error("Logout error:", err);
-      // Still clear local storage and redirect
       adminService.clearAdminAuth();
       navigate("/admin/login");
     }
@@ -63,12 +62,10 @@ export const useAdminAuth = () => {
       if (response.success) {
         return { success: true, user: response.user };
       } else {
-        // Clear invalid session
         adminService.clearAdminAuth();
         return { success: false, message: "Session expired" };
       }
     } catch (err: any) {
-      // Clear invalid session
       adminService.clearAdminAuth();
       return {
         success: false,

@@ -140,8 +140,7 @@ export interface KYCStats {
 
 // Admin Service
 export const adminService = {
-  // ========== AUTHENTICATION ==========
-  // In admin.service.ts, update login function
+
   login: async (
     credentials: AdminLoginRequest
   ): Promise<AdminLoginResponse> => {
@@ -151,7 +150,7 @@ export const adminService = {
       // Store tokens
       const { token, refreshToken, user } = response.data;
 
-      // Use the functions from adminService
+   
       adminService.setAdminToken(token);
       adminService.setAdminRefreshToken(refreshToken);
       adminService.setAdminUser(user);
@@ -194,13 +193,13 @@ export const adminService = {
   logout: async (): Promise<{ success: boolean; message: string }> => {
     try {
       const response = await API.get("/api/admin/logout");
-      // Clear admin tokens from localStorage
+
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminRefreshToken");
       localStorage.removeItem("adminUser");
       return response.data;
     } catch (error: any) {
-      // Still clear tokens even if API call fails
+ 
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminRefreshToken");
       localStorage.removeItem("adminUser");

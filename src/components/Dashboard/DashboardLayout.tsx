@@ -17,12 +17,9 @@ const DashboardLayout: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchUserProfile = async () => {
-    try {
-      console.log("Fetching user profile...");
+    try {    
       const profile = await ProfileService.getProfile();
-      console.log("Profile fetched:", profile);
       
-      // Update user data with profile
       const updatedUser = {
         ...currentUser,
         profile: profile
@@ -44,7 +41,7 @@ const DashboardLayout: React.FC = () => {
       try {
         // Check if user is authenticated
         const isAuthenticated = authService.isAuthenticated();
-        console.log("Is authenticated:", isAuthenticated);
+       
         
         if (!isAuthenticated) {
           console.log("Not authenticated, redirecting to login");
@@ -54,16 +51,13 @@ const DashboardLayout: React.FC = () => {
 
         // Get current user from localStorage
         let user = authService.getCurrentUser();
-        console.log("Current user from auth service:", user);
+    
         
         if (!user) {
           console.log("No user found in localStorage, but token exists");
           
-          // Try to create a basic user from the token
           const token = localStorage.getItem("token");
           if (token) {
-            // You could decode the JWT to get user info
-            // For now, create a minimal user
             user = {
               id: "unknown",
               email: "user@example.com",
@@ -86,7 +80,6 @@ const DashboardLayout: React.FC = () => {
         
         setCurrentUser(user);
         
-        // Fetch fresh profile data
         await fetchUserProfile();
         
       } catch (error) {

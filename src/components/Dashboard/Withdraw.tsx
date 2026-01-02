@@ -33,7 +33,7 @@ const Withdraw: React.FC = () => {
 
   const amountVal = Number.parseFloat(withdrawAmount || '0');
   const isAmountTooHigh = amountVal > availableBalance;
-  const withdrawalCharge = 0; // This should come from settings or API
+  const withdrawalCharge = 0; 
 
   const handleWithdraw = async () => {
     if (!withdrawAddress || amountVal <= 0 || isAmountTooHigh) return;
@@ -50,7 +50,7 @@ const Withdraw: React.FC = () => {
 
       const transaction = await TransactionService.createWithdrawal(withdrawData);
       
-      // Show success message or redirect
+
       navigate('/dashboard/transactions', {
         state: { 
           message: 'Withdrawal request submitted successfully!',

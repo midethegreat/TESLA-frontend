@@ -15,7 +15,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onMenuClick }) => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
@@ -32,17 +31,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onMenuClick }) => {
 
  // Get the avatar URL to display
   const getAvatarUrl = () => {
-    // Use avatarUrl if available
     if (user?.avatarUrl) {
       return user?.avatarUrl;
     }
     
-    // If avatar exists but no avatarUrl, construct it from relative path
     if (user?.avatar && user.avatar.startsWith('/uploads/avatars/')) {
       return `${window.location.origin}${user.avatar}`;
     }
     
-    // Return null for no avatar
     return null;
   };
 
@@ -50,7 +46,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onMenuClick }) => {
     
 
   const handleLogout = () => {
-    logout(); // Call the logout function from useAuth
+    logout(); 
     setProfileOpen(false);
     navigate('/login');
   };
@@ -117,17 +113,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onMenuClick }) => {
         alt={`${user?.firstName} ${user?.lastName}`}
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         onError={(e) => {
-          // If image fails to load, show gradient background
           e.currentTarget.style.display = 'none';
         }}
       />
-      {/* Gradient overlay for better contrast */}
       <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-red-600/20 mix-blend-overlay"></div>
     </div>
   ) : (
     <>
       <User size={20} className="text-white relative z-10" />
-      {/* Animated gradient background for placeholder */}
       <div className="absolute inset-0 bg-gradient-to-tr from-orange-500 to-red-600 animate-pulse-slow"></div>
     </>
   )}

@@ -19,7 +19,7 @@ const Settings: React.FC = () => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   
-  // Initialize profile data from hook or defaults
+
   const [profileData, setProfileData] = useState({
     firstName: '',
     lastName: '',
@@ -61,12 +61,10 @@ const Settings: React.FC = () => {
       return user?.avatarUrl;
     }
     
-    // If avatar exists but no avatarUrl, construct it from relative path
     if (user?.avatar && user.avatar.startsWith('/uploads/avatars/')) {
       return `${window.location.origin}${user.avatar}`;
     }
-    
-    // Return null for no avatar
+ 
     return null;
   };
 
@@ -74,7 +72,7 @@ const Settings: React.FC = () => {
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setProfileData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setSaveError(null); // Clear error when user makes changes
+    setSaveError(null); 
   };
 
   const handleSaveProfile = async () => {
@@ -85,10 +83,10 @@ const Settings: React.FC = () => {
     setSaveSuccess(false);
     
     try {
-      // Prepare update data
+   
       const updateData: any = {};
       
-      // Only include fields that can be updated
+
       const updateFields = ['firstName', 'lastName', 'username', 'gender', 'phone', 'country', 'city', 'zipCode', 'address'];
       
       updateFields.forEach(field => {
@@ -97,7 +95,7 @@ const Settings: React.FC = () => {
         }
       });
       
-      // Handle date of birth separately
+
       if (profileData.dob) {
         updateData.dateOfBirth = new Date(profileData.dob);
       }
@@ -132,7 +130,7 @@ const Settings: React.FC = () => {
       setSaveError(error.message || 'Failed to upload avatar');
     } finally {
       setUploadLoading(false);
-      // Reset file input
+  
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }

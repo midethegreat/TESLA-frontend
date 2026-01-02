@@ -19,13 +19,11 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Check if admin token exists
         if (!adminService.isAdminLoggedIn()) {
           setIsAuthorized(false);
           return;
         }
 
-        // Get current user
         const user = adminService.getAdminUser();
 
         if (!user) {
@@ -33,13 +31,11 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({
           return;
         }
 
-        // Check role if superadmin is required
         if (requireSuperAdmin && user.role !== "SUPERADMIN") {
           setIsAuthorized(false);
           return;
         }
 
-        // Verify token with server
         const response = await adminService.verifyToken();
 
         if (response.success) {
@@ -70,7 +66,6 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({
   }
 
   if (!isAuthorized) {
-    // Redirect to admin login with return URL
     return (
       <Navigate to="/admin/login" state={{ from: location.pathname }} replace />
     );

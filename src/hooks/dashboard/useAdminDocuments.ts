@@ -34,8 +34,7 @@ export const useAdminDocuments = (props?: {
       setLoading(true);
       setError(null);
 
-      // This is a placeholder - you'll need to create this endpoint in your backend
-      // For now, we'll use demo data
+
       const demoDocuments: AdminDocument[] = [
         {
           id: "doc_001",
@@ -72,7 +71,6 @@ export const useAdminDocuments = (props?: {
         },
       ];
 
-      // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setDocuments(demoDocuments);
