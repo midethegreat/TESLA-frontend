@@ -48,7 +48,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = () => {
   const handleLogout = () => {
     logout(); 
     setProfileOpen(false);
-    navigate('/login');
+    navigate('/');
   };
 
   return (

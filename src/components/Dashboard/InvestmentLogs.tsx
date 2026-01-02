@@ -64,7 +64,7 @@ const InvestmentLogs: React.FC = () => {
           <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Investment Logs</h3>
         </div>
 
-        <div className="overflow-x-auto custom-scrollbar -mx-4 px-4 pb-4">
+        <div className="hidden md:block overflow-x-auto custom-scrollbar -mx-4 px-4 pb-4">
           <table className="w-full text-left min-w-[600px] md:min-w-[800px]">
             <thead>
               <tr className="bg-white/5 rounded-2xl overflow-hidden">
@@ -141,6 +141,54 @@ const InvestmentLogs: React.FC = () => {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Stacked Cards */}
+        <div className="md:hidden space-y-4">
+          {logs.length > 0 ? (
+            logs.map((log) => (
+              <div key={log.id} className="bg-white/5 rounded-2xl p-5 border border-white/5 space-y-4">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                      {log.icon}
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-white uppercase tracking-widest">{log.plan}</p>
+                      <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter mt-0.5">{log.startDate}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${getStatusColor(log.status)}`}>
+                    {log.status}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 pt-2">
+                  <div className="bg-black/20 p-3 rounded-xl border border-white/5">
+                    <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Invested</p>
+                    <p className="text-sm font-black text-white">{log.amount}</p>
+                  </div>
+                  <div className="bg-black/20 p-3 rounded-xl border border-white/5">
+                    <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Profit</p>
+                    <p className="text-sm font-black text-green-500">{log.profit}</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-[10px] pt-2 border-t border-white/5">
+                  <span className="text-gray-500 uppercase tracking-widest font-black">Ends on</span>
+                  <span className="text-gray-300 font-bold">{log.endDate}</span>
+                </div>
+                
+                <button className="w-full py-3 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors border border-white/5">
+                  View Full Details
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="py-12 text-center bg-white/5 rounded-3xl border border-white/5 border-dashed">
+              <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">No Logs Found</p>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 pt-8 border-t border-white/5">

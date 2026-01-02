@@ -50,12 +50,12 @@ const Referral: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-[#0d0d0d]/60 border border-white/5 rounded-[2.5rem] p-6 md:p-8 shadow-2xl space-y-8">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-black text-white uppercase tracking-tight">All Referral Logs</h3>
-          <div className="flex items-center gap-2">
+      <div className="bg-[#0d0d0d]/60 border border-white/5 rounded-[2.5rem] p-4 md:p-8 shadow-2xl space-y-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <h3 className="text-base md:text-lg font-black text-white uppercase tracking-tight">All Referral Logs</h3>
+          <div className="flex items-center gap-2 bg-green-500/10 px-4 py-2 rounded-xl border border-green-500/20">
             <Users size={16} className="text-green-500" />
-            <span className="text-[10px] font-bold text-green-400">Referral Profit: $0</span>
+            <span className="text-[10px] font-bold text-green-400">Profit: $0</span>
           </div>
         </div>
         
@@ -64,20 +64,24 @@ const Referral: React.FC = () => {
         </div>
         
         <div className="h-[1px] w-full bg-white/5"></div>
-        <div className="bg-[#141414] border border-white/5 border-dashed rounded-2xl h-24 flex items-center justify-center">
-          <span className="text-[10px] font-bold text-gray-700 uppercase tracking-[0.2em] italic">
-            NO REFERRALS FOUND
-          </span>
+        
+        {/* Referral Cards for Mobile */}
+        <div className="space-y-4">
+          <div className="bg-[#141414] border border-white/5 border-dashed rounded-2xl h-24 flex items-center justify-center">
+            <span className="text-[10px] font-bold text-gray-700 uppercase tracking-[0.2em] italic">
+              NO REFERRALS FOUND
+            </span>
+          </div>
         </div>
         
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white/5 p-4 rounded-xl">
-            <p className="text-[10px] text-gray-400 uppercase tracking-widest">Direct Referrals</p>
-            <p className="text-2xl font-bold text-white">0</p>
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
+          <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+            <p className="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Direct</p>
+            <p className="text-xl font-black text-white">0</p>
           </div>
-          <div className="bg-white/5 p-4 rounded-xl">
-            <p className="text-[10px] text-gray-400 uppercase tracking-widest">Indirect Referrals</p>
-            <p className="text-2xl font-bold text-white">0</p>
+          <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+            <p className="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Indirect</p>
+            <p className="text-xl font-black text-white">0</p>
           </div>
         </div>
       </div>
