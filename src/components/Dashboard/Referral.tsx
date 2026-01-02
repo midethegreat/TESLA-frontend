@@ -85,7 +85,6 @@ const Referral: React.FC = () => {
         </div>
       </div>
     </div>
-    </div>
   );
 };
 
