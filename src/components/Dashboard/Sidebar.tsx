@@ -45,7 +45,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ isOpen, onToggle })
 
   const handleLogout = () => {
     logout(); 
-    navigate('/');
+    navigate('/login');
   };
 
   return (

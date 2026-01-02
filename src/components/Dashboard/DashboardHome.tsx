@@ -159,36 +159,21 @@ const DashboardHome: React.FC = () => {
               { id: "ranking", name: "Ranking", icon: <Trophy size={22} />, path: "/dashboard/ranking" },
               { id: "referral", name: "Referral", icon: <UserPlus size={22} />, path: "/dashboard/referral" },
               { id: "kyc", name: "KYC Verify", icon: <ShieldCheck size={22} />, path: "/dashboard/kyc" },
-              { id: "security", name: "Password", icon: <Lock size={22} />, path: "/dashboard/reset-password" },
+              { id: "security", name: "Password", icon: <Lock size={22} />, path: "/dashboard/security" },
               { id: "settings", name: "Settings", icon: <Home size={22} />, path: "/dashboard/settings" },
-              { id: "support", name: "Support", icon: <Megaphone size={22} />, path: "https://t.me/Allyssabroker", external: true },
+              { id: "support", name: "Support", icon: <Megaphone size={22} />, path: "/dashboard/support" },
               { id: "notifications", name: "Notifications", icon: <Bell size={22} />, path: "/dashboard/notifications" },
             ].map((nav) => (
-              nav.external ? (
-                <a
-                  key={nav.id}
-                  href={nav.path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-3 active:scale-95 transition-transform"
-                >
-                  <div className="text-white opacity-80">{nav.icon}</div>
-                  <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest text-center">
-                    {nav.name}
-                  </span>
-                </a>
-              ) : (
-                <Link
-                  key={nav.id}
-                  to={nav.path}
-                  className="flex flex-col items-center gap-3 active:scale-95 transition-transform"
-                >
-                  <div className="text-white opacity-80">{nav.icon}</div>
-                  <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest text-center">
-                    {nav.name}
-                  </span>
-                </Link>
-              )
+              <Link
+                key={nav.id}
+                to={nav.path}
+                className="flex flex-col items-center gap-3 active:scale-95 transition-transform"
+              >
+                <div className="text-white opacity-80">{nav.icon}</div>
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest text-center">
+                  {nav.name}
+                </span>
+              </Link>
             ))}
           </div>
         </div>

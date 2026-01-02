@@ -89,7 +89,7 @@ export default function Login() {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="Enter your email"
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white/10 transition"
+              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -105,7 +105,7 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Enter your password"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white/10 transition"
+                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <button
                 type="button"
