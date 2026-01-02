@@ -52,8 +52,8 @@ const InvestmentLogs: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto pb-28">
-      <div className="glass-card bg-[#1a1a1a]/40 border border-white/5 rounded-[2.5rem] p-6 md:p-12 shadow-2xl relative overflow-hidden">
+    <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto pb-28 px-4">
+      <div className="glass-card bg-[#1a1a1a]/40 border border-white/5 rounded-[2.5rem] p-4 md:p-12 shadow-2xl relative overflow-hidden">
         <div className="flex items-center gap-4 mb-8">
           <button
             onClick={() => navigate('/dashboard')}
@@ -64,8 +64,8 @@ const InvestmentLogs: React.FC = () => {
           <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Investment Logs</h3>
         </div>
 
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left min-w-[800px]">
+        <div className="overflow-x-auto custom-scrollbar -mx-4 px-4 pb-4">
+          <table className="w-full text-left min-w-[600px] md:min-w-[800px]">
             <thead>
               <tr className="bg-white/5 rounded-2xl overflow-hidden">
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 first:rounded-l-2xl">

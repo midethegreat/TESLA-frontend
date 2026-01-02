@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronDown, DollarSign, AlertTriangle, ArrowUpRight, Check, Fingerprint, Lock, ShieldCheck, Loader2 } from 'lucide-react';
 import { TransactionService, type WithdrawRequest } from '@/services/transaction.service';
+import { useAuth } from '@/hooks/useAuth';
 
 const Withdraw: React.FC = () => {
   const navigate = useNavigate();
-  const [isKycVerified] = useState(false); // This should come from auth context
+  const { user } = useAuth();
+  const isKycVerified = (user as any)?.profile?.kycStatus === 'APPROVED';
   const [withdrawStep, setWithdrawStep] = useState<'amount' | 'address'>('amount');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');

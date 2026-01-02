@@ -95,8 +95,8 @@ const Transactions: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto pb-28">
-      <div className="glass-card bg-[#1a1a1a]/40 border border-white/5 rounded-[2.5rem] p-6 md:p-12 shadow-2xl relative overflow-hidden">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto pb-28 px-4">
+      <div className="glass-card bg-[#1a1a1a]/40 border border-white/5 rounded-[2.5rem] p-4 md:p-12 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
         
         {/* Filters */}
@@ -105,11 +105,11 @@ const Transactions: React.FC = () => {
             My Transactions
           </h3>
           
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <select
               value={filters.type || ''}
               onChange={(e) => handleFilterChange('type', e.target.value || undefined)}
-              className="px-4 py-2 rounded-full bg-white/5 text-sm text-white border border-white/10 focus:outline-none"
+              className="flex-grow md:flex-initial px-4 py-2 rounded-full bg-white/5 text-sm text-white border border-white/10 focus:outline-none min-w-[120px]"
             >
               <option value="">All Types</option>
               <option value="DEPOSIT">Deposit</option>
@@ -122,7 +122,7 @@ const Transactions: React.FC = () => {
             <select
               value={filters.status || ''}
               onChange={(e) => handleFilterChange('status', e.target.value || undefined)}
-              className="px-4 py-2 rounded-full bg-white/5 text-sm text-white border border-white/10 focus:outline-none"
+              className="flex-grow md:flex-initial px-4 py-2 rounded-full bg-white/5 text-sm text-white border border-white/10 focus:outline-none min-w-[120px]"
             >
               <option value="">All Status</option>
               <option value="PENDING">Pending</option>
@@ -134,7 +134,7 @@ const Transactions: React.FC = () => {
             <button
               onClick={fetchTransactions}
               disabled={loading}
-              className="px-4 py-2 rounded-full bg-amber-500 text-black font-bold text-sm uppercase tracking-widest hover:bg-amber-600 transition disabled:opacity-50"
+              className="w-full md:w-auto px-4 py-2 rounded-full bg-amber-500 text-black font-bold text-sm uppercase tracking-widest hover:bg-amber-600 transition disabled:opacity-50"
             >
               {loading ? <Loader2 size={16} className="animate-spin" /> : 'Refresh'}
             </button>
@@ -150,8 +150,8 @@ const Transactions: React.FC = () => {
           </div>
         )}
         
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left min-w-[800px]">
+        <div className="overflow-x-auto custom-scrollbar -mx-4 px-4 pb-4">
+          <table className="w-full text-left min-w-[600px] md:min-w-[800px]">
             <thead>
               <tr className="bg-white/5 rounded-2xl overflow-hidden">
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 first:rounded-l-2xl">
