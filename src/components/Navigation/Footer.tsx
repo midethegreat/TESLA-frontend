@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Youtube, Send } from "lucide-react";
+import { Twitter, Instagram, Youtube, Send } from "lucide-react";
 
 export default function Footer() {
   const telegramUrl = "https://t.me/Allyssabroker";
@@ -87,8 +87,8 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center justify-end space-x-6 text-gray-500">
-            <a href="#" className="hover:text-white transition">
-              <Facebook size={20} />
+            <a href="https://x.com/Tesla" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+              <Twitter size={20} />
             </a>
             <a href="#" className="hover:text-white transition">
               <Instagram size={20} />

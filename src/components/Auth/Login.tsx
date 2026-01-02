@@ -1,6 +1,6 @@
 // components/Auth/Login.tsx
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { authService } from "@/services/auth.service";
 import Logo from "../logo/logo";
@@ -8,6 +8,7 @@ import Logo from "../logo/logo";
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -96,15 +97,24 @@ export default function Login() {
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300">
               Password
             </label>
-            <input
-              required
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="Enter your password"
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+            <div className="relative">
+              <input
+                required
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Enter your password"
+                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black transition"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center justify-between">

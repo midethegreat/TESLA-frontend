@@ -1,4 +1,4 @@
-import { Mail, Loader2, RefreshCw, ArrowLeft, UserPlus } from "lucide-react";
+import { Mail, Loader2, RefreshCw, ArrowLeft, UserPlus, Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -16,6 +16,8 @@ export default function Register() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [verificationCode, setVerificationCode] = useState("");
   const [showCodeInput, setShowCodeInput] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -369,15 +371,24 @@ export default function Register() {
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block">
               Password
             </label>
-            <input
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
-            />
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black transition"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             <p className="text-[8px] text-gray-500">Minimum 6 characters</p>
           </div>
 
@@ -386,15 +397,24 @@ export default function Register() {
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block">
               Confirm Password
             </label>
-            <input
-              name="confirmPassword"
-              type="password"
-              placeholder="••••••••"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-              required
-              className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
-            />
+            <div className="relative">
+              <input
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                required
+                className="w-full bg-[#ffffcc] rounded-xl py-4 px-6 text-sm text-black font-bold placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black transition"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           {/* Error Message */}

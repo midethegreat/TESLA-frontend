@@ -5,15 +5,34 @@ import {
   Cpu,
   ShieldCheck,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Stats() {
-    
+  const [counts, setCounts] = useState({
+    users: 4116636,
+    deposit: 187428920,
+    plans: 3117266,
+    withdrawn: 273662623,
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounts((prev) => ({
+        users: prev.users + Math.floor(Math.random() * 3),
+        deposit: prev.deposit + Math.floor(Math.random() * 100),
+        plans: prev.plans + Math.floor(Math.random() * 2),
+        withdrawn: prev.withdrawn + Math.floor(Math.random() * 150),
+      }));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const stats = [
-    { label: "Total Users", value: "4,116,636" },
-    { label: "Total Deposit", value: "187,428,920" },
-    { label: "Active Investment Plans", value: "3,117,266" },
-    { label: "Total Withdrawn", value: "273,662,623" },
+    { label: "Total Users", value: counts.users.toLocaleString() },
+    { label: "Total Deposit", value: counts.deposit.toLocaleString() },
+    { label: "Active Investment Plans", value: counts.plans.toLocaleString() },
+    { label: "Total Withdrawn", value: counts.withdrawn.toLocaleString() },
   ];
 
   const features = [
