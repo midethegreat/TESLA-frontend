@@ -47,7 +47,7 @@ export default function Stats() {
   useEffect(() => {
     if (!hasStarted) return;
 
-    const duration = 2000; // 2 seconds for initial count up
+    const duration = 5000; // 5 seconds for initial count up
     const startTime = performance.now();
     const START_VALUE = 500;
 
