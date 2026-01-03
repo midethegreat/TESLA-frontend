@@ -1,4 +1,4 @@
-import { Mail, Loader2, RefreshCw, ArrowLeft } from "lucide-react";
+import { Mail, Loader2, RefreshCw, ArrowLeft, ShieldCheck, Lock } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ export default function Reset() {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -35,6 +36,7 @@ export default function Reset() {
       }
 
       setStep("verify");
+      setSuccess("Reset code sent! Please check your email.");
     } catch (err: any) {
       setError(err.response?.data?.message || "Reset request failed");
     } finally {
@@ -63,7 +65,8 @@ export default function Reset() {
         return;
       }
 
-      navigate("/login");
+      setSuccess("Password reset successful! Redirecting...");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err: any) {
       setError(err.response?.data?.message || "Reset failed");
     } finally {
@@ -78,6 +81,7 @@ export default function Reset() {
       setNewPassword("");
       setConfirmPassword("");
       setError(null);
+      setSuccess(null);
     } else {
       navigate("/login");
     }
@@ -85,55 +89,81 @@ export default function Reset() {
 
   if (step === "verify") {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6">
-        <div className="w-full max-w-xl glass-card p-12 rounded-2xl text-center space-y-8">
+      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6 font-display">
+        <div className="w-full max-w-xl glass-card p-10 md:p-12 rounded-2xl text-center space-y-8 border border-white/10 shadow-2xl">
           <div className="flex justify-center">
-            <div className="w-20 h-20 rounded-full bg-amber-500/10 flex items-center justify-center">
-              <Mail size={40} className="text-amber-500" />
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+              <ShieldCheck size={40} className="text-white" />
             </div>
           </div>
 
-          <h1 className="text-2xl font-black uppercase">Reset Password</h1>
-          <p className="text-gray-400 text-sm mt-2">
-            Enter the code sent to {email} and your new password
-          </p>
+          <div className="space-y-3">
+            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Create New Password</h1>
+            <p className="text-gray-400 text-sm">
+              Enter the 6-digit code sent to <span className="text-amber-500 font-bold">{email}</span>
+            </p>
+          </div>
+
+          {success && (
+            <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-xs font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-2">
+              {success}
+            </div>
+          )}
 
           {error && (
-            <div className="p-3 bg-red-500/10 text-red-400 text-xs font-bold uppercase">
+            <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-2">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleResetConfirm} className="space-y-4">
-            <input
-              type="text"
-              placeholder="Verification code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              required
-              className="input w-full"
-            />
-            <input
-              type="password"
-              placeholder="New password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-              className="input w-full"
-            />
-            <input
-              type="password"
-              placeholder="Confirm new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="input w-full"
-            />
+          <form onSubmit={handleResetConfirm} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block text-left">
+                Verification Code
+              </label>
+              <input
+                type="text"
+                placeholder="6-digit code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                maxLength={6}
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block text-left">
+                New Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block text-left">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition"
+              />
+            </div>
 
             <button
               type="submit"
               disabled={refreshing}
-              className="w-full py-4 rounded-full bg-amber-500 text-black font-black uppercase text-xs flex justify-center items-center gap-2"
+              className="w-full py-4 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-black uppercase text-xs flex justify-center items-center gap-2 hover:scale-[1.02] transition transform active:scale-95 disabled:opacity-50 shadow-lg shadow-amber-500/20"
             >
               {refreshing ? (
                 <Loader2 className="animate-spin" size={16} />
@@ -146,9 +176,9 @@ export default function Reset() {
 
           <button
             onClick={handleBack}
-            className="flex items-center justify-center gap-2 text-xs text-gray-400 uppercase"
+            className="flex items-center justify-center gap-2 text-xs text-gray-400 uppercase hover:text-white transition pt-4"
           >
-            <ArrowLeft size={14} /> Back
+            <ArrowLeft size={14} /> Back to Login
           </button>
         </div>
       </div>
@@ -156,32 +186,46 @@ export default function Reset() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6">
-      <div className="w-full max-w-xl glass-card p-12 rounded-2xl text-center">
-        <h1 className="text-3xl font-black uppercase">Forgot Password</h1>
-        <p className="text-gray-400 text-sm mt-2">
-          Enter your email to reset password
-        </p>
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6 font-display">
+      <div className="w-full max-w-xl glass-card p-10 md:p-12 rounded-2xl text-center space-y-8 border border-white/10 shadow-2xl">
+        <div className="flex justify-center">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg">
+            <Lock size={40} className="text-white" />
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Forgot Password</h1>
+          <p className="text-gray-400 text-sm">
+            No worries! Enter your email and we'll send you a reset code.
+          </p>
+        </div>
 
         {error && (
-          <div className="p-3 bg-red-500/10 text-red-400 text-xs font-bold uppercase my-4">
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-2">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleResetRequest} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="input w-full"
-          />
+        <form onSubmit={handleResetRequest} className="space-y-5">
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block text-left">
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white/10 transition"
+            />
+          </div>
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-full bg-orange-500 font-black uppercase text-xs flex justify-center"
+            className="w-full py-4 rounded-full bg-gradient-to-r from-orange-500 to-red-600 text-white font-black uppercase text-xs flex justify-center items-center gap-2 hover:scale-[1.02] transition transform active:scale-95 disabled:opacity-50 shadow-xl shadow-orange-500/20"
           >
             {loading ? (
               <Loader2 className="animate-spin" size={16} />
@@ -193,11 +237,20 @@ export default function Reset() {
 
         <button
           onClick={handleBack}
-          className="flex items-center justify-center gap-2 text-xs text-gray-400 uppercase mt-4"
+          className="flex items-center justify-center gap-2 text-xs text-gray-400 uppercase hover:text-white transition pt-4"
         >
-          <ArrowLeft size={14} /> Back
+          <ArrowLeft size={14} /> Back to Login
         </button>
       </div>
+      <style>{`
+        .glass-card {
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(10px);
+        }
+        input {
+          transition: all 0.2s ease;
+        }
+      `}</style>
     </div>
   );
 }
