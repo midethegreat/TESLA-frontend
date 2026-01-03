@@ -118,6 +118,7 @@ const AdminKYC: React.FC = () => {
                           <img
                             src={request.idFrontPath}
                             alt="ID Front"
+                            crossOrigin="anonymous"
                             className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
                             onClick={() => window.open(request.idFrontPath, '_blank')}
                           />
@@ -138,6 +139,7 @@ const AdminKYC: React.FC = () => {
                           <img
                             src={request.idBackPath}
                             alt="ID Back"
+                            crossOrigin="anonymous"
                             className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
                             onClick={() => window.open(request.idBackPath, '_blank')}
                           />
@@ -160,6 +162,7 @@ const AdminKYC: React.FC = () => {
                           <img
                             src={request.selfiePath}
                             alt="Selfie"
+                            crossOrigin="anonymous"
                             className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
                             onClick={() => window.open(request.selfiePath, '_blank')}
                           />
