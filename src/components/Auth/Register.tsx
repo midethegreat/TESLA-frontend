@@ -381,6 +381,7 @@ export default function Register() {
                 value={formData.country}
                 onChange={handleInputChange}
                 required
+                size={1}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white/10 transition appearance-none cursor-pointer pr-12"
               >
                 <option value="" disabled className="bg-[#121212]">Select Country</option>
@@ -390,6 +391,13 @@ export default function Register() {
                   </option>
                 ))}
               </select>
+              <style>{`
+                select[name="country"] option {
+                  padding: 12px;
+                }
+                /* For Firefox and some others, we can't style native select height easily, 
+                   but we can ensure it doesn't overflow the viewport */
+              `}</style>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-amber-500 transition-colors">
                 <ChevronDown size={18} />
               </div>
