@@ -18,6 +18,7 @@ export default function Register() {
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,6 +54,16 @@ export default function Register() {
     };
 
     detectCountry();
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.group')) {
+        setShowCountryDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const countries = [
@@ -376,31 +387,46 @@ export default function Register() {
               Country
             </label>
             <div className="relative">
-              <select
-                name="country"
+              <input
+                type="text"
+                placeholder="Search or Select Country"
                 value={formData.country}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  setFormData({ ...formData, country: e.target.value });
+                  setShowCountryDropdown(true);
+                }}
+                onFocus={() => setShowCountryDropdown(true)}
                 required
-                size={1}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white/10 transition appearance-none cursor-pointer pr-12"
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white/10 transition pr-12"
+              />
+              <div 
+                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 group-hover:text-amber-500 transition-colors"
+                onClick={() => setShowCountryDropdown(!showCountryDropdown)}
               >
-                <option value="" disabled className="bg-[#121212]">Select Country</option>
-                {countries.map(country => (
-                  <option key={country} value={country} className="bg-[#121212] py-2">
-                    {country}
-                  </option>
-                ))}
-              </select>
-              <style>{`
-                select[name="country"] option {
-                  padding: 12px;
-                }
-                /* For Firefox and some others, we can't style native select height easily, 
-                   but we can ensure it doesn't overflow the viewport */
-              `}</style>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-amber-500 transition-colors">
                 <ChevronDown size={18} />
               </div>
+
+              {showCountryDropdown && (
+                <div className="absolute z-50 w-full mt-2 bg-[#121212] border border-white/10 rounded-xl shadow-2xl max-h-60 overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
+                  {countries
+                    .filter(c => c.toLowerCase().includes(formData.country.toLowerCase()))
+                    .map((country) => (
+                      <div
+                        key={country}
+                        className="px-6 py-3 text-sm text-gray-300 hover:bg-amber-500/10 hover:text-white cursor-pointer transition-colors border-b border-white/5 last:border-0"
+                        onClick={() => {
+                          setFormData({ ...formData, country: country });
+                          setShowCountryDropdown(false);
+                        }}
+                      >
+                        {country}
+                      </div>
+                    ))}
+                  {countries.filter(c => c.toLowerCase().includes(formData.country.toLowerCase())).length === 0 && (
+                    <div className="px-6 py-4 text-xs text-gray-500 italic">No countries found</div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -538,6 +564,21 @@ export default function Register() {
         input:focus, select:focus {
           outline: none;
           box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.5);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(249, 115, 22, 0.3);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(249, 115, 22, 0.5);
         }
       `}</style>
     </div>
