@@ -8,11 +8,7 @@ import { useState } from "react";
 
 const AdminUsers: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { users, loading, refetch, pagination } = useAdminUsers();
-
-  const handlePageChange = (newPage: number) => {
-    refetch({ page: newPage });
-  };
+  const { users, loading, refetch } = useAdminUsers();
 
   // Get current user role from localStorage
   const currentUser = adminService.getAdminUser();
@@ -182,57 +178,6 @@ const AdminUsers: React.FC = () => {
               )}
             </tbody>
           </table>
-        </div>
-
-        {/* Pagination Controls */}
-        <div className="flex items-center justify-between px-4 py-3 border-t border-white/10 mt-4">
-          <div className="text-gray-400 text-xs">
-            Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
-            {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
-            {pagination.total} users
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => handlePageChange(pagination.page - 1)}
-              disabled={pagination.page <= 1}
-              className="px-3 py-1 bg-white/5 border border-white/10 rounded text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition"
-            >
-              Previous
-            </button>
-            <div className="flex items-center gap-1">
-               {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                 let pageNum = pagination.page;
-                 if (pagination.totalPages <= 5) {
-                   pageNum = i + 1;
-                 } else {
-                   if (pagination.page <= 3) pageNum = i + 1;
-                   else if (pagination.page >= pagination.totalPages - 2) pageNum = pagination.totalPages - 4 + i;
-                   else pageNum = pagination.page - 2 + i;
-                 }
-                 
-                 return (
-                   <button
-                     key={pageNum}
-                     onClick={() => handlePageChange(pageNum)}
-                     className={`w-8 h-8 rounded flex items-center justify-center text-xs transition ${
-                       pagination.page === pageNum
-                         ? "bg-amber-500 text-black font-bold"
-                         : "bg-white/5 text-gray-400 hover:bg-white/10"
-                     }`}
-                   >
-                     {pageNum}
-                   </button>
-                 );
-               })}
-            </div>
-            <button
-              onClick={() => handlePageChange(pagination.page + 1)}
-              disabled={pagination.page >= pagination.totalPages}
-              className="px-3 py-1 bg-white/5 border border-white/10 rounded text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition"
-            >
-              Next
-            </button>
-          </div>
         </div>
       )}
     </div>
