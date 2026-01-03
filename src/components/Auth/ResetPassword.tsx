@@ -1,4 +1,4 @@
-import { Mail, Loader2, RefreshCw, ArrowLeft, ShieldCheck, Lock } from "lucide-react";
+import { Loader2, RefreshCw, ArrowLeft, ShieldCheck, Lock } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
