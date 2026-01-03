@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Ensure content doesn't cause horizontal scroll */
+.max-w-screen {
+  max-width: 100vw;
+}
+
+/* Content container with proper overflow handling */
+.content-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Responsive table container */
+.responsive-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure images don't cause overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Hide scrollbar for certain elements */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+
+/* styles/tesla-logo.css or add to your tailwind.config.js */
+.tesla-red-filter {
+  filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(360deg) brightness(95%) contrast(118%);
+}
+
+/* Alternative using brightness/contrast only */
+.tesla-logo {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(99%) saturate(7404%) hue-rotate(360deg) brightness(95%) contrast(118%);
+}
