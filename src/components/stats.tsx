@@ -22,10 +22,32 @@ export default function Stats() {
     withdrawn: 500,
   });
   const [isAnimating, setIsAnimating] = useState(true);
+  const [hasStarted, setHasStarted] = useState(false);
   const animationRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const duration = 1500; // 1.5 seconds for initial count up
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    const duration = 2000; // 2 seconds for initial count up
     const startTime = performance.now();
     const START_VALUE = 500;
 
@@ -55,10 +77,10 @@ export default function Stats() {
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, []);
+  }, [hasStarted]);
 
   useEffect(() => {
-    if (isAnimating) return;
+    if (isAnimating || !hasStarted) return;
 
     const interval = setInterval(() => {
       setCounts((prev) => ({
@@ -70,7 +92,7 @@ export default function Stats() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isAnimating]);
+  }, [isAnimating, hasStarted]);
 
   const stats = [
     { label: "Total Users", value: counts.users.toLocaleString() },
@@ -103,7 +125,7 @@ export default function Stats() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-transparent">
+    <section id="about" ref={sectionRef} className="py-20 bg-transparent">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-3">
           <div className="glass-subtopic mb-2">
