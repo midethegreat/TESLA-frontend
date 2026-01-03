@@ -92,14 +92,14 @@ const AdminAnalytics: React.FC = () => {
                         className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded"
                         style={{
                           width: `${
-                            (count / (analytics?.totalVisitors || 1)) * 100
+                            ((count as number) / (analytics?.totalVisitors || 1)) * 100
                           }%`,
                           maxWidth: "100%",
                         }}
                       />
                     </div>
                     <span className="text-white font-semibold min-w-8">
-                      {count}
+                      {count as React.ReactNode}
                     </span>
                   </div>
                 </div>

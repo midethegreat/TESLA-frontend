@@ -75,6 +75,8 @@ export interface AnalyticsData {
   emailVerified: number;
   kycVerified: number;
   kycPending: number;
+  totalVisitors: number;
+  visitorStats: Record<string, number>;
   registrationByCountry: Record<string, number>;
   registrationTrend?: Array<{
     date: string;
