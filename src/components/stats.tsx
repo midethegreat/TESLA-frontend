@@ -1,4 +1,83 @@
 
+import {
+  Car,
+  Briefcase,
+  Cpu,
+  ShieldCheck,
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+
+const TARGET_COUNTS = {
+  users: 4116636,
+  deposit: 187428920,
+  plans: 3117266,
+  withdrawn: 273662623,
+};
+
+export default function Stats() {
+  const [counts, setCounts] = useState({
+    users: 0,
+    deposit: 0,
+    plans: 0,
+    withdrawn: 0,
+  });
+  const [isAnimating, setIsAnimating] = useState(true);
+  const animationRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const duration = 1500; // 1.5 seconds for initial count up
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Use easeOutExpo for a fast start that slows down
+      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+      setCounts({
+        users: Math.floor(TARGET_COUNTS.users * easeProgress),
+        deposit: Math.floor(TARGET_COUNTS.deposit * easeProgress),
+        plans: Math.floor(TARGET_COUNTS.plans * easeProgress),
+        withdrawn: Math.floor(TARGET_COUNTS.withdrawn * easeProgress),
+      });
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        setIsAnimating(false);
+      }
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isAnimating) return;
+
+    const interval = setInterval(() => {
+      setCounts((prev) => ({
+        users: prev.users + (Math.random() > 0.5 ? 1 : 0),
+        deposit: prev.deposit + Math.floor(Math.random() * 5),
+        plans: prev.plans + (Math.random() > 0.8 ? 1 : 0),
+        withdrawn: prev.withdrawn + Math.floor(Math.random() * 10),
+      }));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isAnimating]);
+
+  const stats = [
+    { label: "Total Users", value: counts.users.toLocaleString() },
+    { label: "Total Deposit", value: counts.deposit.toLocaleString() },
+    { label: "Active Investment Plans", value: counts.plans.toLocaleString() },
+    { label: "Total Withdrawn", value: counts.withdrawn.toLocaleString() },
+  ];
+
   const features = [
     {
       title: "Multiple Crypto Payments",
@@ -74,5 +153,3 @@
     </section>
   );
 }
-
-
