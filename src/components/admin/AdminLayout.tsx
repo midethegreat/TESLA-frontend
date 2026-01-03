@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import {
   LogOut,
   Menu,
@@ -13,9 +13,9 @@ import {
   Settings,
   Bell,
   ChevronDown,
-  Home,
   FileText as FileTextIcon,
   Shield,
+  LayoutDashboard,
 } from "lucide-react";
 
 import { adminService } from "../../services/admin.service";
@@ -40,8 +40,10 @@ export default function AdminLayout() {
     await logout();
   };
 
+  const location = useLocation();
+
   const menuItems = [
-    { icon: <Home size={20} />, label: "Dashboard", path: "/admin/dashboard" },
+    { icon: <LayoutDashboard size={20} />, label: "Dashboard", path: "/admin/dashboard" },
     { icon: <Users size={20} />, label: "Users", path: "/admin/users" },
     { icon: <FileText size={20} />, label: "KYC", path: "/admin/kyc" },
     {
@@ -97,17 +99,26 @@ export default function AdminLayout() {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
-            {menuItems.map((item) => (
-              <Link
-                key={item.label}
-                to={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition"
-              >
-                {item.icon}
-                <span className="font-medium">{item.label}</span>
-              </Link>
-            ))}
+            {menuItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group ${
+                    isActive
+                      ? "bg-amber-500 text-white shadow-lg shadow-amber-500/20"
+                      : "text-gray-400 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  <span className={`${isActive ? "text-white" : "group-hover:text-amber-500"} transition-colors`}>
+                    {item.icon}
+                  </span>
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
 
             {/* Super Admin Only Section */}
             {isSuperAdmin && (

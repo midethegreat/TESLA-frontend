@@ -48,7 +48,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = () => {
   const handleLogout = () => {
     logout(); 
     setProfileOpen(false);
-    navigate('/');
+    navigate('/login');
   };
 
   return (
@@ -78,7 +78,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = () => {
           </button>
 
           {notificationOpen && (
-            <div className="fixed md:absolute top-24 md:top-[calc(100%+12px)] right-4 md:right-0 w-[calc(100%-32px)] md:w-96 bg-[#1a1a1a] border border-white/10 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+            <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-[#1a1a1a] border border-white/10 rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
               <h3 className="text-sm md:text-base font-black text-white uppercase tracking-widest mb-4">
                 Notifications
               </h3>

@@ -1,5 +1,13 @@
 // services/auth.service.ts
 import API from "./api";
+import { auth } from "./firebase";
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+  confirmPasswordReset
+} from "firebase/auth";
 
 export interface RegisterData {
   firstName: string;
@@ -50,38 +58,64 @@ export interface AuthResponse {
 let pendingRefreshRequest: Promise<{ token: string; refreshToken: string }> | null = null;
 
 export const authService = {
-  register: (data: RegisterData) =>
-    API.post<AuthResponse>("/auth/register", data),
+  register: async (data: RegisterData) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      // We still call our backend to sync the user profile and data
+      return API.post<AuthResponse>("/auth/register", {
+        ...data,
+        firebaseUid: userCredential.user.uid
+      });
+    } catch (error) {
+      console.error("Firebase registration error:", error);
+      throw error;
+    }
+  },
     
   verifyEmail: (data: VerifyEmailData) =>
     API.post<AuthResponse>("/auth/verify-email", data),
     
   login: async (data: LoginData): Promise<{ data: AuthResponse }> => {
-   
-    
     try {
-      const response = await API.post<AuthResponse>("/auth/login", data);
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const idToken = await userCredential.user.getIdToken();
+      
+      const response = await API.post<AuthResponse>("/auth/login", {
+        ...data,
+        firebaseToken: idToken
+      });
    
- 
       if (response.data.success && response.data.token) {
         authService.storeTokens(response.data);
         console.log("Login successful, tokens stored");
-      } else {
-        console.log("Login failed:", response.data.message);
       }
       
       return response;
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Firebase login error:", error);
       throw error;
     }
   },
   
-  resetRequest: (data: ResetRequestData) =>
-    API.post<AuthResponse>("/auth/reset-request", data),
+  resetRequest: async (data: ResetRequestData) => {
+    try {
+      await sendPasswordResetEmail(auth, data.email);
+      return { data: { success: true, message: "Password reset email sent" } };
+    } catch (error) {
+      console.error("Firebase reset request error:", error);
+      throw error;
+    }
+  },
     
-  resetConfirm: (data: ResetConfirmData) =>
-    API.post<AuthResponse>("/auth/reset-confirm", data),
+  resetConfirm: async (data: ResetConfirmData) => {
+    try {
+      await confirmPasswordReset(auth, data.code, data.newPassword);
+      return API.post<AuthResponse>("/auth/reset-confirm", data);
+    } catch (error) {
+      console.error("Firebase reset confirm error:", error);
+      throw error;
+    }
+  },
     
   refreshToken: async (): Promise<{ token: string; refreshToken: string }> => {
     console.log("Refresh token called");
@@ -146,13 +180,16 @@ export const authService = {
     }
   },
   
-  logout: () => {
+  logout: async () => {
     console.log("Logging out, clearing localStorage");
     
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Firebase signout error:", error);
+    }
 
     authService.clearAuthData();
-    
-
     window.location.href = "/login";
   },
   
