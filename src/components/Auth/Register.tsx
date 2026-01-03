@@ -408,12 +408,16 @@ export default function Register() {
 
               {showCountryDropdown && (
                 <div className="absolute z-50 w-full mt-2 bg-[#121212] border border-white/10 rounded-xl shadow-2xl max-h-60 overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
-                  {countries
-                    .filter(c => c.toLowerCase().includes(formData.country.toLowerCase()))
-                    .map((country) => (
+                  {countries.map((country) => {
+                    const isMatched = country.toLowerCase().includes(formData.country.toLowerCase()) && formData.country !== "";
+                    return (
                       <div
                         key={country}
-                        className="px-6 py-3 text-sm text-gray-300 hover:bg-amber-500/10 hover:text-white cursor-pointer transition-colors border-b border-white/5 last:border-0"
+                        className={`px-6 py-3 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 ${
+                          isMatched 
+                            ? "bg-amber-500/20 text-amber-500 font-bold" 
+                            : "text-gray-300 hover:bg-white/5 hover:text-white"
+                        }`}
                         onClick={() => {
                           setFormData({ ...formData, country: country });
                           setShowCountryDropdown(false);
@@ -421,10 +425,8 @@ export default function Register() {
                       >
                         {country}
                       </div>
-                    ))}
-                  {countries.filter(c => c.toLowerCase().includes(formData.country.toLowerCase())).length === 0 && (
-                    <div className="px-6 py-4 text-xs text-gray-500 italic">No countries found</div>
-                  )}
+                    );
+                  })}
                 </div>
               )}
             </div>
