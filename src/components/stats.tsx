@@ -16,10 +16,10 @@ const TARGET_COUNTS = {
 
 export default function Stats() {
   const [counts, setCounts] = useState({
-    users: 0,
-    deposit: 0,
-    plans: 0,
-    withdrawn: 0,
+    users: 500,
+    deposit: 500,
+    plans: 500,
+    withdrawn: 500,
   });
   const [isAnimating, setIsAnimating] = useState(true);
   const animationRef = useRef<number | null>(null);
@@ -27,6 +27,7 @@ export default function Stats() {
   useEffect(() => {
     const duration = 1500; // 1.5 seconds for initial count up
     const startTime = performance.now();
+    const START_VALUE = 500;
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
@@ -36,10 +37,10 @@ export default function Stats() {
       const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
 
       setCounts({
-        users: Math.floor(TARGET_COUNTS.users * easeProgress),
-        deposit: Math.floor(TARGET_COUNTS.deposit * easeProgress),
-        plans: Math.floor(TARGET_COUNTS.plans * easeProgress),
-        withdrawn: Math.floor(TARGET_COUNTS.withdrawn * easeProgress),
+        users: Math.floor(START_VALUE + (TARGET_COUNTS.users - START_VALUE) * easeProgress),
+        deposit: Math.floor(START_VALUE + (TARGET_COUNTS.deposit - START_VALUE) * easeProgress),
+        plans: Math.floor(START_VALUE + (TARGET_COUNTS.plans - START_VALUE) * easeProgress),
+        withdrawn: Math.floor(START_VALUE + (TARGET_COUNTS.withdrawn - START_VALUE) * easeProgress),
       });
 
       if (progress < 1) {
