@@ -1,40 +1,4 @@
 
-import {
-  Car,
-  Briefcase,
-  Cpu,
-  ShieldCheck,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-
-export default function Stats() {
-  const [counts, setCounts] = useState({
-    users: 4116636,
-    deposit: 187428920,
-    plans: 3117266,
-    withdrawn: 273662623,
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCounts((prev) => ({
-        users: prev.users + (Math.random() > 0.5 ? 1 : 0),
-        deposit: prev.deposit + Math.floor(Math.random() * 5),
-        plans: prev.plans + (Math.random() > 0.8 ? 1 : 0),
-        withdrawn: prev.withdrawn + Math.floor(Math.random() * 10),
-      }));
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const stats = [
-    { label: "Total Users", value: counts.users.toLocaleString() },
-    { label: "Total Deposit", value: counts.deposit.toLocaleString() },
-    { label: "Active Investment Plans", value: counts.plans.toLocaleString() },
-    { label: "Total Withdrawn", value: counts.withdrawn.toLocaleString() },
-  ];
-
   const features = [
     {
       title: "Multiple Crypto Payments",
