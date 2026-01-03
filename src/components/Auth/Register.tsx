@@ -1,4 +1,4 @@
-import { Mail, Loader2, RefreshCw, ArrowLeft, UserPlus, Eye, EyeOff } from "lucide-react";
+import { Mail, Loader2, RefreshCw, ArrowLeft, UserPlus, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -371,24 +371,29 @@ export default function Register() {
           </div>
 
           {/* Country */}
-          <div className="space-y-2">
+          <div className="space-y-2 relative group">
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-300 block">
               Country
             </label>
-            <select
-              name="country"
-              value={formData.country}
-              onChange={handleInputChange}
-              required
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white/10 transition appearance-none"
-            >
-              <option value="" disabled className="bg-[#0a0a0a]">Select Country</option>
-              {countries.map(country => (
-                <option key={country} value={country} className="bg-[#0a0a0a]">
-                  {country}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleInputChange}
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white/10 transition appearance-none cursor-pointer pr-12"
+              >
+                <option value="" disabled className="bg-[#121212]">Select Country</option>
+                {countries.map(country => (
+                  <option key={country} value={country} className="bg-[#121212] py-2">
+                    {country}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-amber-500 transition-colors">
+                <ChevronDown size={18} />
+              </div>
+            </div>
           </div>
 
           {/* Referral ID (Optional) */}
