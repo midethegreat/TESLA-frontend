@@ -75,6 +75,41 @@ const AdminAnalytics: React.FC = () => {
 
       <div className="bg-[#0d0d0d] border border-white/10 rounded-lg p-6">
         <h3 className="text-white font-semibold mb-4">
+          Live Visitor Tracking (By Country)
+        </h3>
+        <div className="space-y-2">
+          {analytics?.visitorStats &&
+            Object.entries(analytics.visitorStats).map(
+              ([country, count]) => (
+                <div
+                  key={country}
+                  className="flex items-center justify-between"
+                >
+                  <span className="text-gray-400">{country}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-32 h-2 bg-gray-700 rounded">
+                      <div
+                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded"
+                        style={{
+                          width: `${
+                            (count / (analytics?.totalVisitors || 1)) * 100
+                          }%`,
+                          maxWidth: "100%",
+                        }}
+                      />
+                    </div>
+                    <span className="text-white font-semibold min-w-8">
+                      {count}
+                    </span>
+                  </div>
+                </div>
+              )
+            )}
+        </div>
+      </div>
+
+      <div className="bg-[#0d0d0d] border border-white/10 rounded-lg p-6">
+        <h3 className="text-white font-semibold mb-4">
           Registration by Country
         </h3>
         <div className="space-y-2">

@@ -114,11 +114,17 @@ const AdminKYC: React.FC = () => {
                     <div className="space-y-2">
                       <p className="text-xs text-gray-400">ID Front</p>
                       {request.idFrontPath ? (
-                        <img
-                          src={request.idFrontPath}
-                          alt="ID Front"
-                          className="w-full h-48 object-cover rounded border border-white/10"
-                        />
+                        <div className="relative group">
+                          <img
+                            src={request.idFrontPath}
+                            alt="ID Front"
+                            className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
+                            onClick={() => window.open(request.idFrontPath, '_blank')}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none transition">
+                            <span className="bg-black/60 text-white text-xs px-2 py-1 rounded">Click to enlarge</span>
+                          </div>
+                        </div>
                       ) : (
                         <div className="w-full h-48 bg-gray-800 rounded border border-white/10 flex items-center justify-center">
                           <FileText className="text-gray-600" size={48} />
@@ -128,11 +134,17 @@ const AdminKYC: React.FC = () => {
                     <div className="space-y-2">
                       <p className="text-xs text-gray-400">ID Back</p>
                       {request.idBackPath ? (
-                        <img
-                          src={request.idBackPath}
-                          alt="ID Back"
-                          className="w-full h-48 object-cover rounded border border-white/10"
-                        />
+                        <div className="relative group">
+                          <img
+                            src={request.idBackPath}
+                            alt="ID Back"
+                            className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
+                            onClick={() => window.open(request.idBackPath, '_blank')}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none transition">
+                            <span className="bg-black/60 text-white text-xs px-2 py-1 rounded">Click to enlarge</span>
+                          </div>
+                        </div>
                       ) : (
                         <div className="w-full h-48 bg-gray-800 rounded border border-white/10 flex items-center justify-center">
                           <FileText className="text-gray-600" size={48} />
@@ -144,11 +156,17 @@ const AdminKYC: React.FC = () => {
                         Selfie with Document
                       </p>
                       {request.selfiePath ? (
-                        <img
-                          src={request.selfiePath}
-                          alt="Selfie"
-                          className="w-full h-48 object-cover rounded border border-white/10"
-                        />
+                        <div className="relative group">
+                          <img
+                            src={request.selfiePath}
+                            alt="Selfie"
+                            className="w-full h-48 object-cover rounded border border-white/10 cursor-pointer hover:opacity-80 transition"
+                            onClick={() => window.open(request.selfiePath, '_blank')}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none transition">
+                            <span className="bg-black/60 text-white text-xs px-2 py-1 rounded">Click to enlarge</span>
+                          </div>
+                        </div>
                       ) : (
                         <div className="w-full h-48 bg-gray-800 rounded border border-white/10 flex items-center justify-center">
                           <Users className="text-gray-600" size={48} />
