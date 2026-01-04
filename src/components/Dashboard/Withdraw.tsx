@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 const Withdraw: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const isKycVerified = (user as any)?.profile?.kycStatus === 'APPROVED' || (user as any)?.profile?.kycStatus === 'verified' || (user as any)?.profile?.kycVerified === true;
+  const isKycVerified = (user as any)?.kycStatus === 'APPROVED' || (user as any)?.kycStatus === 'verified' || (user as any)?.profile?.kycStatus === 'APPROVED' || (user as any)?.profile?.kycStatus === 'verified' || (user as any)?.kycVerified === true || (user as any)?.profile?.kycVerified === true;
   const [withdrawStep, setWithdrawStep] = useState<'amount' | 'address'>('amount');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');
@@ -26,9 +26,15 @@ const Withdraw: React.FC = () => {
       setWalletLoading(true);
       setError(null);
       const response = await TransactionService.getMyWallet();
-      console.log('Wallet Response:', response);
+      console.log('Wallet Response Data:', JSON.stringify(response, null, 2));
+      
       if (response && response.wallet) {
-        setAvailableBalance(response.wallet.availableBalance);
+        // Use availableBalance or balance if availableBalance is missing/zero but balance exists
+        const balance = response.wallet.availableBalance ?? response.wallet.balance ?? 0;
+        setAvailableBalance(balance);
+      } else {
+        console.warn('Wallet data structure unexpected:', response);
+        setError('Unable to load wallet data. Please try again.');
       }
     } catch (err: any) {
       console.error('Error fetching wallet:', err);
