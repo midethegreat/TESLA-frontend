@@ -24,10 +24,15 @@ const Withdraw: React.FC = () => {
   const fetchWalletBalance = async () => {
     try {
       setWalletLoading(true);
+      setError(null);
       const response = await TransactionService.getMyWallet();
-      setAvailableBalance(response.wallet.availableBalance);
+      console.log('Wallet Response:', response);
+      if (response && response.wallet) {
+        setAvailableBalance(response.wallet.availableBalance);
+      }
     } catch (err: any) {
       console.error('Error fetching wallet:', err);
+      setError('Failed to fetch wallet balance. Please refresh.');
     } finally {
       setWalletLoading(false);
     }
@@ -167,8 +172,8 @@ const Withdraw: React.FC = () => {
             <div className="pt-6 flex justify-center">
               <button
                 onClick={handleWithdraw}
-                disabled={!withdrawAddress || loading}
-                className="w-full flex items-center justify-center gap-3 px-14 py-5 rounded-full bg-gradient-to-r from-[#ff8c00] via-[#ff4d00] to-[#ff4500] text-white font-black uppercase text-[11px] tracking-widest shadow-[0_15px_30px_rgba(255,69,0,0.3)] hover:scale-105 transition transform active:scale-95 group disabled:opacity-50"
+                disabled={!withdrawAddress || loading || isAmountTooHigh || amountVal <= 0}
+                className="w-full flex items-center justify-center gap-3 px-14 py-5 rounded-full bg-gradient-to-r from-[#ff8c00] via-[#ff4d00] to-[#ff4500] text-white font-black uppercase text-[11px] tracking-widest shadow-[0_15px_30px_rgba(255,69,0,0.3)] hover:scale-105 transition transform active:scale-95 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>

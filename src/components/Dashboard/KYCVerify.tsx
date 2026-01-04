@@ -7,6 +7,32 @@ import { useKyc } from '@/hooks/dashboard/useKyc'
 import { useProfile } from '@/hooks/useProfile' 
 import KYCStatusCard from './KYCStatusCard'
 
+const countries = [
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+  "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+  "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+  "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+  "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia",
+  "Fiji", "Finland", "France",
+  "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+  "Haiti", "Honduras", "Hungary",
+  "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
+  "Jamaica", "Japan", "Jordan",
+  "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+  "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+  "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+  "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
+  "Oman",
+  "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+  "Qatar",
+  "Romania", "Russia", "Rwanda",
+  "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+  "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+  "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan",
+  "Vanuatu", "Vatican City", "Venezuela", "Viet Nam",
+  "Yemen",
+  "Zambia", "Zimbabwe"
+];
 
 const KYCVerify: React.FC = () => {
   const navigate = useNavigate()
@@ -16,10 +42,11 @@ const KYCVerify: React.FC = () => {
   const [isSubmittingKyc, setIsSubmittingKyc] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false)
   
   const [kycData, setKycData] = useState({
     fullName: '',
-    country: 'Nigeria',
+    country: '',
     idType: 'national_id' as 'national_id' | 'passport' | 'drivers_license',
     idNumber: '',
     dateOfBirth: '',
@@ -32,7 +59,7 @@ const KYCVerify: React.FC = () => {
     occupation: '',
     sourceOfFunds: '',
     purposeOfAccount: '',
-    nationality: 'Nigeria',
+    nationality: '',
     idIssuedDate: '',
     idExpiryDate: ''
   })
@@ -306,24 +333,50 @@ const KYCVerify: React.FC = () => {
           </div>
           
           {/* Country */}
-          <div className="space-y-3">
+          <div className="space-y-3 relative group">
             <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] block">Country *</label>
             <div className="relative">
-              <select
+              <input
+                type="text"
+                placeholder="Search or Select Country"
                 value={kycData.country}
-                onChange={(e) => setKycData({ ...kycData, country: e.target.value, nationality: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer"
+                onChange={(e) => {
+                  setKycData({ ...kycData, country: e.target.value, nationality: e.target.value });
+                  setShowCountryDropdown(true);
+                }}
+                onFocus={() => setShowCountryDropdown(true)}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 transition shadow-inner"
+              />
+              <div 
+                className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-amber-500 transition-colors"
+                onClick={() => setShowCountryDropdown(!showCountryDropdown)}
               >
-                <option value="Nigeria">Nigeria</option>
-                <option value="United States">United States</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="Canada">Canada</option>
-                <option value="Ghana">Ghana</option>
-                <option value="South Africa">South Africa</option>
-              </select>
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                 <ChevronDown size={20} />
               </div>
+
+              {showCountryDropdown && (
+                <div className="absolute z-50 w-full mt-2 bg-[#121212] border border-white/10 rounded-xl shadow-2xl max-h-60 overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2">
+                  {countries.map((country) => {
+                    const isMatched = country.toLowerCase().includes(kycData.country.toLowerCase()) && kycData.country !== "";
+                    return (
+                      <div
+                        key={country}
+                        className={`px-6 py-3 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 ${
+                          isMatched 
+                            ? "bg-amber-500/20 text-amber-500 font-bold" 
+                            : "text-gray-300 hover:bg-white/5 hover:text-white"
+                        }`}
+                        onClick={() => {
+                          setKycData({ ...kycData, country: country, nationality: country });
+                          setShowCountryDropdown(false);
+                        }}
+                      >
+                        {country}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
           
@@ -336,11 +389,11 @@ const KYCVerify: React.FC = () => {
               <select
                 value={kycData.idType}
                 onChange={(e) => setKycData({ ...kycData, idType: e.target.value as any })}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-gray-300 focus:outline-none focus:border-amber-500/30 focus:bg-white/10 appearance-none shadow-inner cursor-pointer transition pr-12"
               >
-                <option value="national_id">National ID</option>
-                <option value="passport">International Passport</option>
-                <option value="drivers_license">Driver's License</option>
+                <option value="national_id" className="bg-[#121212]">National ID</option>
+                <option value="passport" className="bg-[#121212]">International Passport</option>
+                <option value="drivers_license" className="bg-[#121212]">Driver's License</option>
               </select>
               <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                 <ChevronDown size={20} />

@@ -19,6 +19,7 @@ const InvestmentPreview: React.FC = () => {
     navigate('/dashboard/deposit', { 
       state: { 
         depositAmount: investAmount,
+        selectedToken: '', // Reset token to let user choose
         fromInvestment: true 
       } 
     });

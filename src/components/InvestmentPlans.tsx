@@ -90,7 +90,8 @@ function PlanCard({ plan }: { plan: InvestmentPlan }) {
 
         <div className="pt-4 mt-auto">
           <Link
-            to="/login"
+            to="/dashboard/investment-preview"
+            state={{ plan }}
             className="w-full py-3 rounded-full gradient-button text-black font-black uppercase text-[9px] tracking-widest flex items-center justify-center gap-2 hover:scale-105 transition"
           >
             <Zap size={12} />

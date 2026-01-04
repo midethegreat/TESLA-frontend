@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronDown, CopyIcon, Check, DollarSign, Loader2, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ChevronLeft, ChevronDown, CopyIcon, Check, DollarSign, Loader2, AlertCircle, Download, Maximize2, X } from 'lucide-react';
 import { useTokenPrices } from '@/hooks/dashboard/useTokenPrices';
 import { TransactionService, type DepositRequest } from '@/services/transaction.service';
 
@@ -14,13 +14,24 @@ type TokenType = keyof typeof WALLET_ADDRESSES;
 
 const Deposit: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [depositStep, setDepositStep] = useState<'entry' | 'payment'>('entry');
   const [selectedToken, setSelectedToken] = useState<TokenType | ''>('');
   const [depositAmount, setDepositAmount] = useState('');
   const [addressCopied, setAddressCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isQRExpanded, setIsQRExpanded] = useState(false);
   const { tokenPrices, isLoading: pricesLoading } = useTokenPrices();
+
+  useEffect(() => {
+    if (location.state?.depositAmount) {
+      setDepositAmount(location.state.depositAmount);
+    }
+    if (location.state?.selectedToken !== undefined) {
+      setSelectedToken(location.state.selectedToken);
+    }
+  }, [location.state]);
 
   // Type guard to ensure selectedToken is a valid TokenType
   const isValidToken = (token: string): token is TokenType => {
@@ -153,8 +164,30 @@ const Deposit: React.FC = () => {
       address
     )}&bgcolor=ffffff&color=000000`;
 
+    const downloadQR = () => {
+      const link = document.createElement('a');
+      link.href = qrUrl;
+      link.download = `tesla-deposit-${tokenCode}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
     return (
       <div className="space-y-6 animate-in fade-in zoom-in duration-500 max-w-[800px] mx-auto pb-32 px-2 md:px-0 flex flex-col items-center">
+        {isQRExpanded && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 animate-in fade-in duration-300">
+            <button 
+              onClick={() => setIsQRExpanded(false)}
+              className="absolute top-10 right-10 text-white/60 hover:text-white transition"
+            >
+              <X size={32} />
+            </button>
+            <div className="bg-white p-4 rounded-3xl max-w-full max-h-full">
+              <img src={qrUrl} alt="Expanded QR Code" className="max-w-full max-h-[80vh] object-contain" />
+            </div>
+          </div>
+        )}
         <div className="flex items-center gap-4 w-full">
           <button
             onClick={() => setDepositStep('entry')}
@@ -190,9 +223,33 @@ const Deposit: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <div className="w-40 h-40 md:w-56 lg:w-64 aspect-square bg-white p-2 md:p-3 rounded-[1.5rem] shadow-2xl relative flex items-center justify-center overflow-hidden">
-              <img src={qrUrl} alt="QR Code" className="w-full h-full object-contain" />
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative group/qr">
+              <div className="w-40 h-40 md:w-56 lg:w-64 aspect-square bg-white p-2 md:p-3 rounded-[1.5rem] shadow-2xl relative flex items-center justify-center overflow-hidden">
+                <img src={qrUrl} alt="QR Code" className="w-full h-full object-contain" />
+              </div>
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/qr:opacity-100 transition-opacity flex items-center justify-center gap-3 rounded-[1.5rem]">
+                <button 
+                  onClick={() => setIsQRExpanded(true)}
+                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition backdrop-blur-sm"
+                >
+                  <Maximize2 size={20} />
+                </button>
+                <button 
+                  onClick={downloadQR}
+                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition backdrop-blur-sm"
+                >
+                  <Download size={20} />
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-4 md:hidden">
+                <button onClick={() => setIsQRExpanded(true)} className="flex items-center gap-2 text-[10px] font-black text-amber-500 uppercase tracking-widest bg-amber-500/10 px-4 py-2 rounded-full">
+                  <Maximize2 size={12} /> Expand
+                </button>
+                <button onClick={downloadQR} className="flex items-center gap-2 text-[10px] font-black text-amber-500 uppercase tracking-widest bg-amber-500/10 px-4 py-2 rounded-full">
+                  <Download size={12} /> Download
+                </button>
             </div>
           </div>
 
