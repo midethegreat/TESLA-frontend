@@ -85,8 +85,8 @@ const KYCVerify: React.FC = () => {
 
     // Auto-approve KYC if pending for more than 1 minute (for demo/user request)
     let autoApproveTimer: any;
-    if (kycStatus?.kycStatus === 'pending' && kycStatus.kycSubmittedAt) {
-      const createdAtDate = new Date(kycStatus.kycSubmittedAt).getTime();
+    if (kycStatus?.kycStatus === 'pending') {
+      const createdAtDate = kycStatus.kycSubmittedAt ? new Date(kycStatus.kycSubmittedAt).getTime() : new Date().getTime();
       const now = new Date().getTime();
       const oneMinuteInMs = 60 * 1000;
       const timeElapsed = now - createdAtDate;
@@ -94,12 +94,19 @@ const KYCVerify: React.FC = () => {
 
       if (timeElapsed >= oneMinuteInMs) {
         // If already past 1 minute, trigger auto-approval
-        kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus());
-      } else if (remainingTime > 0) {
+        console.log("Auto-approving KYC (past 1 minute)");
+        kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus()).catch(err => console.error("Auto-approve error:", err));
+      } else {
+        const delay = Math.max(0, remainingTime);
+        console.log(`Setting auto-approve timer for ${delay}ms`);
         autoApproveTimer = setTimeout(() => {
-          kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus());
-        }, remainingTime);
+          console.log("Timer triggered: auto-approving KYC");
+          kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus()).catch(err => console.error("Auto-approve error:", err));
+        }, delay);
       }
+    } else if (kycStatus?.kycStatus === 'none' || kycStatus?.kycStatus === 'rejected') {
+       // Reset timer if status changed back to none or rejected
+       if (autoApproveTimer) clearTimeout(autoApproveTimer);
     }
 
     return () => {

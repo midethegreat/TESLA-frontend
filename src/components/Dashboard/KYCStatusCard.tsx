@@ -171,12 +171,14 @@ const KYCStatusCard: React.FC<KYCStatusCardProps> = ({ kycStatus, onRetry, fullN
         )}
         
         {kycStatus.kycStatus === 'pending' && (
-          <button
-            onClick={() => window.location.href = '/support'}
-            className="px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition"
+          <a
+            href="https://t.me/Allyssabroker"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition text-center"
           >
             Contact Support
-          </button>
+          </a>
         )}
       </div>
     </div>

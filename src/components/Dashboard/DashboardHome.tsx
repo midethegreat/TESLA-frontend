@@ -42,8 +42,10 @@ const DashboardHome: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const [showAllStats, setShowAllStats] = useState(false);
+
   const stats = [
-    { label: "Total Deposit", value: "$0", color: "bg-[#e2f9cc]", textColor: "text-black", icon: <Wallet size={16} /> },
+    { label: "Total Deposit", value: `$${availableBalance.toFixed(2)}`, color: "bg-[#e2f9cc]", textColor: "text-black", icon: <Wallet size={16} /> },
     { label: "Total Investment", value: "$0.00", color: "bg-[#d9e8fb]", textColor: "text-black", icon: <Layers size={16} /> },
     { label: "Total Profit", value: "$0.00", color: "bg-[#f9f3d1]", textColor: "text-black", icon: <Percent size={16} /> },
     { label: "Total Transfer", value: "$0.00", color: "bg-[#f2f2f2]", textColor: "text-black", icon: <ArrowUpRight size={16} /> },
@@ -198,47 +200,53 @@ const DashboardHome: React.FC = () => {
       <div className="lg:hidden space-y-6 pt-4 px-2">
         <h3 className="text-[11px] font-black text-white uppercase tracking-[0.2em] px-2">ALL STATISTIC</h3>
         <div className="space-y-4">
-          <div className="bg-[#e2f9cc] rounded-full p-4 flex items-center justify-between shadow-lg">
-            <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-black/5 rounded-full flex items-center justify-center p-3 relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
-                  <Wallet size={24} />
+          {(showAllStats ? stats : stats.slice(0, 2)).map((stat, idx) => (
+            <div key={idx} className={`${stat.color} rounded-full p-4 flex items-center justify-between shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+              <div className="flex items-center gap-5">
+                <div className="w-14 h-14 bg-black/5 rounded-full flex items-center justify-center p-3 relative overflow-hidden">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 text-black">
+                    {stat.icon}
+                  </div>
+                  <div className="w-full h-full rounded-full bg-gray-400/20 flex items-center justify-center text-black/60 font-black text-xs relative z-10">
+                    {idx === 0 ? (
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png"
+                        className="w-full h-full object-contain"
+                        alt=""
+                      />
+                    ) : (
+                      "$"
+                    )}
+                  </div>
                 </div>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png"
-                  className="w-full h-full object-contain relative z-10"
-                  alt=""
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-black leading-none">${availableBalance.toFixed(2)}</span>
-                <span className="text-[10px] font-black text-black/60 uppercase tracking-widest mt-1">
-                  Total Deposit
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black text-black leading-none">{stat.value}</span>
+                  <span className="text-[10px] font-black text-black/60 uppercase tracking-widest mt-1">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="bg-[#d9e8fb] rounded-full p-4 flex items-center justify-between shadow-lg">
-            <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-black/5 rounded-full flex items-center justify-center p-4">
-                <div className="w-full h-full rounded-full bg-gray-400/50 flex items-center justify-center text-black/60 font-black text-xs">
-                  $
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-black leading-none">$0</span>
-                <span className="text-[10px] font-black text-black/60 uppercase tracking-widest mt-1">
-                  Total Investment
-                </span>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="flex justify-center pt-2 pb-12">
-          <button className="bg-[#242424] text-[#888888] px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
-            Load more
-          </button>
+        <div className="flex justify-center pt-2 pb-12 gap-4">
+          {!showAllStats ? (
+            <button 
+              onClick={() => setShowAllStats(true)}
+              className="bg-[#242424] text-[#888888] px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:text-white transition-colors"
+            >
+              Load more
+            </button>
+          ) : (
+            <button 
+              onClick={() => setShowAllStats(false)}
+              className="bg-[#242424] text-[#888888] px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:text-white transition-colors"
+            >
+              Show less
+            </button>
+          )}
         </div>
+        {showAllStats && <div className="pb-12"></div>}
       </div>
 
       {/* Desktop Stats Grid */}

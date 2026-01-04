@@ -3,11 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronDown, DollarSign, AlertTriangle, ArrowUpRight, Check, Fingerprint, Lock, ShieldCheck, Loader2 } from 'lucide-react';
 import { TransactionService, type WithdrawRequest } from '@/services/transaction.service';
 import { useAuth } from '@/hooks/useAuth';
+import { useKyc } from '@/hooks/dashboard/useKyc';
 
 const Withdraw: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const isKycVerified = (user as any)?.kycStatus === 'APPROVED' || (user as any)?.kycStatus === 'verified' || (user as any)?.profile?.kycStatus === 'APPROVED' || (user as any)?.profile?.kycStatus === 'verified' || (user as any)?.kycVerified === true || (user as any)?.profile?.kycVerified === true;
+  const { kycStatus: hookKycStatus } = useKyc();
+  
+  const isKycVerified = 
+    (user as any)?.kycStatus === 'APPROVED' || 
+    (user as any)?.kycStatus === 'verified' || 
+    (user as any)?.profile?.kycStatus === 'APPROVED' || 
+    (user as any)?.profile?.kycStatus === 'verified' || 
+    (user as any)?.kycVerified === true || 
+    (user as any)?.profile?.kycVerified === true ||
+    (hookKycStatus as any)?.kycStatus === 'APPROVED' ||
+    (hookKycStatus as any)?.kycStatus === 'verified';
+
   const [withdrawStep, setWithdrawStep] = useState<'amount' | 'address'>('amount');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawAddress, setWithdrawAddress] = useState('');

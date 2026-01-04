@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, Send, ChevronDown } from "lucide-react";
 import Logo from "../logo/logo";
 
@@ -8,7 +8,10 @@ export default function Header() {
   const [langOpen, setLangOpen] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const telegramUrl = "https://t.me/Allyssabroker";
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="fixed w-full z-[100] bg-[#14120e]/90 backdrop-blur-3xl border-b border-white/5">
@@ -25,7 +28,9 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-10">
             <Link
               to="/dashboard"
-              className="text-amber-400 font-bold text-[9px] uppercase tracking-[0.2em] hover:text-white transition"
+              className={`${
+                isActive("/dashboard") ? "text-amber-400" : "text-gray-400"
+              } font-bold text-[9px] uppercase tracking-[0.2em] hover:text-white transition`}
             >
               Home
             </Link>
@@ -90,7 +95,9 @@ export default function Header() {
 
             <button
               onClick={() => navigate("/login")}
-              className="text-white hover:text-amber-400 transition font-black text-[9px] uppercase tracking-widest"
+              className={`${
+                isActive("/login") ? "text-amber-400" : "text-white"
+              } hover:text-amber-400 transition font-black text-[9px] uppercase tracking-widest`}
             >
               Login
             </button>
@@ -123,7 +130,9 @@ export default function Header() {
               <Link
                 onClick={() => setIsOpen(false)}
                 to="/dashboard"
-                className="text-amber-400 text-sm font-black uppercase tracking-[0.3em]"
+                className={`${
+                  isActive("/dashboard") ? "text-amber-400" : "text-gray-400"
+                } text-sm font-black uppercase tracking-[0.3em]`}
               >
                 Home
               </Link>
@@ -151,7 +160,9 @@ export default function Header() {
                   setIsOpen(false);
                   navigate("/login");
                 }}
-                className="w-full text-white py-4 font-black uppercase tracking-[0.2em] border border-white/10 rounded-2xl text-[10px]"
+                className={`${
+                  isActive("/login") ? "text-amber-400 border-amber-400/50" : "text-white border-white/10"
+                } w-full py-4 font-black uppercase tracking-[0.2em] border rounded-2xl text-[10px]`}
               >
                 Sign In
               </button>

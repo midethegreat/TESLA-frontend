@@ -25,25 +25,29 @@ const DashboardBottomNav: React.FC = () => {
               }`
             }
           >
-            <div
-              className={`relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-[16px] md:rounded-[18px] transition-all duration-300 ${
-                navItems.find((n) => n.path === item.path)?.path === '/dashboard'
-                  ? 'bg-gradient-to-b from-[#ff8c00] to-[#ff4500]'
-                  : ''
-              }`}
-            >
-              {React.cloneElement(item.icon as React.ReactElement<any>, {
-                size: 22,
-                className: item.path === '/dashboard' ? 'text-white' : 'text-white/60',
-              })}
-            </div>
-            <span
-              className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest text-center ${
-                item.path === '/dashboard' ? 'text-white' : 'text-white/50'
-              }`}
-            >
-              {item.label}
-            </span>
+            {({ isActive }) => (
+              <>
+                <div
+                  className={`relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-[16px] md:rounded-[18px] transition-all duration-300 ${
+                    isActive
+                      ? 'bg-gradient-to-b from-[#ff8c00] to-[#ff4500] shadow-lg shadow-orange-500/20'
+                      : ''
+                  }`}
+                >
+                  {React.cloneElement(item.icon as React.ReactElement<any>, {
+                    size: 22,
+                    className: isActive ? 'text-white' : 'text-white/40',
+                  })}
+                </div>
+                <span
+                  className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest text-center transition-colors ${
+                    isActive ? 'text-orange-500' : 'text-white/40'
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
