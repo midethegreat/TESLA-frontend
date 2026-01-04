@@ -164,13 +164,29 @@ const Deposit: React.FC = () => {
       address
     )}&bgcolor=ffffff&color=000000`;
 
-    const downloadQR = () => {
-      const link = document.createElement('a');
-      link.href = qrUrl;
-      link.download = `tesla-deposit-${tokenCode}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    const downloadQR = async () => {
+      try {
+        const response = await fetch(qrUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `tesla-deposit-${tokenCode}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('Download failed:', err);
+        // Fallback to direct link if fetch fails
+        const link = document.createElement('a');
+        link.href = qrUrl;
+        link.target = '_blank';
+        link.download = `tesla-deposit-${tokenCode}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     };
 
     return (

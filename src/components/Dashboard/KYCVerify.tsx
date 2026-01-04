@@ -79,11 +79,33 @@ const KYCVerify: React.FC = () => {
 
   useEffect(() => {
     if (kycStatus && (kycStatus.kycStatus === 'pending' || kycStatus.kycStatus === 'verified')) {
-
       setError(null)
       setSuccess(null)
     }
-  }, [kycStatus])
+
+    // Auto-approve KYC if pending for more than 1 minute (for demo/user request)
+    let autoApproveTimer: any;
+    if (kycStatus?.kycStatus === 'pending' && kycStatus.kycSubmittedAt) {
+      const createdAtDate = new Date(kycStatus.kycSubmittedAt).getTime();
+      const now = new Date().getTime();
+      const oneMinuteInMs = 60 * 1000;
+      const timeElapsed = now - createdAtDate;
+      const remainingTime = oneMinuteInMs - timeElapsed;
+
+      if (timeElapsed >= oneMinuteInMs) {
+        // If already past 1 minute, trigger auto-approval
+        kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus());
+      } else if (remainingTime > 0) {
+        autoApproveTimer = setTimeout(() => {
+          kycService.approveKYC(profile?._id || '').then(() => fetchKycStatus());
+        }, remainingTime);
+      }
+    }
+
+    return () => {
+      if (autoApproveTimer) clearTimeout(autoApproveTimer);
+    };
+  }, [kycStatus, fetchKycStatus])
 
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, CheckCircle2 } from 'lucide-react';
 import { INVESTMENT_PLANS } from '@/const/constants';
 import type { InvestmentPlan } from '@/types/types';
 
@@ -34,7 +34,7 @@ const InvestmentPreview: React.FC = () => {
   };
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-500 max-w-7xl mx-auto pb-32 px-4 md:px-0">
+    <div className="space-y-6 md:space-y-10 animate-in fade-in duration-500 max-w-7xl mx-auto pb-32 px-4 md:px-0">
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate('/dashboard/plans')}
@@ -45,12 +45,13 @@ const InvestmentPreview: React.FC = () => {
         <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Schema Preview</h3>
       </div>
 
-      <div className="glass-card bg-[#14120e]/95 border border-white/10 rounded-[2.5rem] p-6 md:p-12 shadow-2xl space-y-10">
-        <div className="space-y-2">
+      <div className="glass-card bg-[#14120e]/95 border border-white/10 rounded-[2.5rem] p-6 md:p-12 shadow-2xl space-y-8 md:space-y-10">
+        <div className="space-y-2 text-center md:text-left">
           <h4 className="text-lg md:text-2xl font-black text-white leading-tight">Review and Confirm Investment</h4>
         </div>
 
-        <div className="border border-white/5 rounded-2xl overflow-hidden overflow-x-auto">
+        {/* Desktop View Table */}
+        <div className="hidden md:block border border-white/5 rounded-2xl overflow-hidden">
           <table className="w-full text-left min-w-[500px]">
             <tbody>
               <tr className="border-b border-white/5">
@@ -64,7 +65,7 @@ const InvestmentPreview: React.FC = () => {
                     className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white font-bold text-sm focus:outline-none w-full max-w-sm"
                   >
                     {INVESTMENT_PLANS.map((p) => (
-                      <option key={p.id} value={p.id}>
+                      <option key={p.id} value={p.id} className="bg-[#14120e]">
                         {p.name}
                       </option>
                     ))}
@@ -99,10 +100,6 @@ const InvestmentPreview: React.FC = () => {
                         isAmountTooLow ? 'border-red-500 bg-red-50/10' : 'border-white/10'
                       } rounded-md py-3 px-4 text-black font-black text-lg focus:outline-none transition-colors duration-200`}
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none text-gray-400">
-                      <ChevronDown size={14} className="rotate-180" />
-                      <ChevronDown size={14} />
-                    </div>
                     {isAmountTooLow && (
                       <div className="text-[10px] text-red-500 font-bold uppercase tracking-widest mt-1">
                         Minimum {selectedPlan.minInvestment} USD Required
@@ -137,18 +134,78 @@ const InvestmentPreview: React.FC = () => {
           </table>
         </div>
 
-        <div className="pt-6">
+        {/* Mobile View - Stacked Cards */}
+        <div className="md:hidden space-y-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Selected Schema</label>
+              <select
+                value={selectedPlan.id}
+                onChange={(e) => handlePlanChange(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-bold text-sm focus:outline-none appearance-none"
+              >
+                {INVESTMENT_PLANS.map((p) => (
+                  <option key={p.id} value={p.id} className="bg-[#14120e]">
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block mb-1">ROI</span>
+                <span className="text-xs font-bold text-amber-500">{selectedPlan.returnLabel}</span>
+              </div>
+              <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block mb-1">Periods</span>
+                <span className="text-xs font-bold text-gray-300">{selectedPlan.periods} Times</span>
+              </div>
+            </div>
+
+            <div className="space-y-1 bg-white/5 p-4 rounded-xl border border-white/5">
+              <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block">Investment Range</span>
+              <span className="text-sm font-bold text-gray-300">
+                ${selectedPlan.minInvestment} - ${selectedPlan.maxInvestment} USD
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Investment Amount (USD)</label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={investAmount}
+                  onChange={(e) => setInvestAmount(e.target.value)}
+                  placeholder={`Min $${selectedPlan.minInvestment}`}
+                  className={`w-full bg-white border ${
+                    isAmountTooLow ? 'border-red-500 bg-red-50/10' : 'border-white/10'
+                  } rounded-xl py-4 px-5 text-black font-black text-xl focus:outline-none transition-colors duration-200 shadow-inner`}
+                />
+                {isAmountTooLow && (
+                  <div className="text-[9px] text-red-500 font-black uppercase tracking-[0.1em] mt-2 flex items-center gap-1">
+                    Minimum investment of ${selectedPlan.minInvestment} required
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-4">
           <button
             onClick={handleInvestSubmit}
             disabled={isAmountTooLow}
-            className={`px-10 py-3 rounded-lg text-white font-black uppercase text-[11px] tracking-widest shadow-2xl transition transform active:scale-95 ${
+            className={`w-full md:w-auto px-10 py-5 rounded-2xl md:rounded-lg text-white font-black uppercase text-[11px] tracking-widest shadow-2xl transition transform active:scale-95 flex items-center justify-center gap-3 ${
               isAmountTooLow
                 ? 'bg-gray-700 cursor-not-allowed opacity-50'
-                : 'bg-[#f97316] hover:scale-105'
+                : 'bg-gradient-to-r from-amber-500 to-orange-600 hover:scale-[1.02]'
             }`}
           >
-            <CheckCircle2 size={14} className="inline mr-2" />
-            Invest Now
+            <CheckCircle2 size={18} />
+            Confirm Investment
           </button>
         </div>
       </div>
