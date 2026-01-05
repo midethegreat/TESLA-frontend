@@ -5,29 +5,29 @@ export default function Process() {
     {
       title: "Create Your Account",
       desc: "Registering on our website gives you instant access to personalized investment opportunities, helping you confidently start building your financial future.",
-      icon: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      icon: "https://www.svgrepo.com/show/532363/user-check.svg",
     },
     {
       title: "Verify Email",
       desc: "You'll need to verify your email to complete your registration and begin your investment journey.",
-      icon: "https://cdn-icons-png.flaticon.com/512/281/281769.png",
+      icon: "https://www.svgrepo.com/show/532397/mail.svg",
     },
     {
       title: "Verify KYC",
       desc: "You'll need to verify your KYC (Know Your Customer) details to ensure a secure and compliant investment experience.",
-      icon: "https://cdn-icons-png.flaticon.com/512/9131/9131529.png",
+      icon: "https://www.svgrepo.com/show/532362/user-id.svg",
     },
     {
       title: "Deposit Funds",
       desc: "Once your account is verified, you can deposit funds to begin your investment journey with us.",
-      icon: "https://cdn-icons-png.flaticon.com/512/2488/2488749.png",
+      icon: "https://www.svgrepo.com/show/532297/wallet.svg",
     },
   ];
 
   const finalStep = {
     title: "Choose an Investment Plan",
     desc: "Choose an investment plan that aligns with your goals, and let us help you grow your wealth with tailored strategies.",
-    icon: "https://cdn-icons-png.flaticon.com/512/1000/1000851.png",
+    icon: "https://www.svgrepo.com/show/532274/trending-up.svg",
   };
 
   return (
