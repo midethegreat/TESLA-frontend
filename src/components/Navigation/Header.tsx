@@ -9,7 +9,7 @@ export default function Header() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const telegramUrl = "https://t.me/Allyssabroker";
+  const telegramUrl = "https://t.me/kathlensuportteslainc";
 
   const isActive = (path: string) => location.pathname === path;
 
