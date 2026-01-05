@@ -8,8 +8,8 @@ export const useVisitorTracking = () => {
   useEffect(() => {
     const trackVisitor = async () => {
       try {
-        // Check if already tracked in this session
-        if (sessionStorage.getItem('visitor_tracked')) return;
+        // Visitor tracking disabled
+        return;
 
         // Get location info
         const geoResponse = await fetch('https://ipapi.co/json/');
