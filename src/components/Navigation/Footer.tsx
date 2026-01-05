@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Twitter, Instagram, Youtube, Send } from "lucide-react";
 
 export default function Footer() {
-  const telegramUrl = "https://t.me/Allyssabroker";
+  const telegramUrl = "https://t.me/kathlensuportteslainc";
 
   return (
     <footer id="contact" className="pt-24 pb-12 bg-[#14120e] border-t border-white/5">

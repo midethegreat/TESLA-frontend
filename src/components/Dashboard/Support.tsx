@@ -43,7 +43,7 @@ const Support: React.FC = () => {
   };
 
   const openTelegram = () => {
-    window.open('https://t.me/Allyssabroker', '_blank');
+    window.open("https://t.me/kathlensuportteslainc", "_blank");
   };
 
   return (
