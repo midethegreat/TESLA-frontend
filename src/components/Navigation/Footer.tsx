@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Twitter, Instagram, Youtube, Send } from "lucide-react";
+import LegalModal from "../LegalModal";
 
 export default function Footer() {
+  const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const telegramUrl = "https://t.me/kathlensuportteslainc";
 
   return (
@@ -83,6 +86,22 @@ export default function Footer() {
                   About
                 </Link>
               </li>
+              <li>
+                <button 
+                  onClick={() => setLegalType('terms')}
+                  className="hover:text-amber-400 transition"
+                >
+                  Terms of Service
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => setLegalType('privacy')}
+                  className="hover:text-amber-400 transition"
+                >
+                  Privacy Policy
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -108,6 +127,12 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      <LegalModal 
+        isOpen={legalType !== null}
+        onClose={() => setLegalType(null)}
+        type={legalType || 'privacy'}
+      />
     </footer>
   );
 }

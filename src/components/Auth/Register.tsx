@@ -1,6 +1,7 @@
 import { Mail, Loader2, RefreshCw, ArrowLeft, UserPlus, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import LegalModal from "../LegalModal";
 import {
   authService,
   type RegisterData,
@@ -8,6 +9,7 @@ import {
 } from "../../services/auth.service";
 
 export default function Register() {
+  const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const [step, setStep] = useState<"register" | "verify">("register");
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -516,7 +518,13 @@ export default function Register() {
               className="mt-1 w-4 h-4 rounded border-gray-300 text-amber-500 focus:ring-amber-500" 
             />
             <p className="text-[10px] text-gray-400">
-              I agree to the <span className="text-amber-500 cursor-pointer">Terms of Service</span> and <span className="text-amber-500 cursor-pointer">Privacy Policy</span>. I confirm that I am at least 18 years old.
+              I agree to the <span 
+                className="text-amber-500 cursor-pointer hover:underline"
+                onClick={() => setLegalType('terms')}
+              >Terms of Service</span> and <span 
+                className="text-amber-500 cursor-pointer hover:underline"
+                onClick={() => setLegalType('privacy')}
+              >Privacy Policy</span>. I confirm that I am at least 18 years old.
             </p>
           </div>
 
@@ -552,6 +560,12 @@ export default function Register() {
           </div>
         </form>
       </div>
+
+      <LegalModal 
+        isOpen={legalType !== null}
+        onClose={() => setLegalType(null)}
+        type={legalType || 'privacy'}
+      />
 
       <style >{`
         .glass-card {
